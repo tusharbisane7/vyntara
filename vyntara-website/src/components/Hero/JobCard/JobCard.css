@@ -1,0 +1,388 @@
+.job-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 410px;
+  padding: 28px;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(18, 24, 45, 0.94),
+      rgba(8, 12, 27, 0.96)
+    );
+
+  border: 1px solid rgba(120, 145, 255, 0.14);
+  border-radius: 24px;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+  transition:
+    transform 0.4s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+/* Hover */
+.job-card:hover {
+  transform: translateY(-8px);
+
+  border-color: rgba(70, 180, 255, 0.38);
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.4),
+    0 0 45px rgba(52, 145, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Background glow */
+.job-card-glow {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+
+  top: -100px;
+  right: -70px;
+
+  background: rgba(73, 145, 255, 0.12);
+  border-radius: 50%;
+
+  filter: blur(45px);
+  pointer-events: none;
+
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease;
+}
+
+.job-card:hover .job-card-glow {
+  transform: scale(1.5);
+  opacity: 1.4;
+}
+
+/* Header */
+.job-card-header {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 30px;
+}
+
+/* Icon */
+.job-card-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  color: #79d9ff;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(67, 180, 255, 0.14),
+      rgba(116, 84, 255, 0.12)
+    );
+
+  border: 1px solid rgba(95, 190, 255, 0.18);
+
+  box-shadow:
+    0 0 25px rgba(54, 175, 255, 0.08);
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.job-card:hover .job-card-icon {
+  transform: rotate(-5deg) scale(1.05);
+
+  box-shadow:
+    0 0 30px rgba(54, 175, 255, 0.18);
+}
+
+/* Date */
+.job-card-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  color: rgba(190, 202, 225, 0.55);
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Content */
+.job-card-content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+}
+
+/* Hiring label */
+.job-card-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-bottom: 13px;
+
+  color: #79d9ff;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 1.8px;
+}
+
+/* Title */
+.job-card-title {
+  margin: 0 0 17px;
+
+  color: #ffffff;
+
+  font-size: 25px;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+
+  transition: color 0.3s ease;
+}
+
+.job-card:hover .job-card-title {
+  color: #8ee3ff;
+}
+
+/* Meta */
+.job-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin-bottom: 20px;
+}
+
+.job-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 7px 11px;
+
+  color: rgba(216, 226, 245, 0.72);
+
+  font-size: 12px;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  border: 1px solid rgba(255, 255, 255, 0.07);
+
+  border-radius: 9px;
+}
+
+.job-meta-item svg {
+  color: #71d6ff;
+}
+
+/* Description */
+.job-card-description {
+  margin: 0;
+
+  color: rgba(194, 204, 225, 0.68);
+
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+/* Tags */
+.job-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  margin-top: 22px;
+}
+
+.job-tag {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 6px 10px;
+
+  color: rgba(190, 226, 255, 0.78);
+
+  background: rgba(74, 157, 255, 0.07);
+
+  border: 1px solid rgba(74, 157, 255, 0.13);
+
+  border-radius: 7px;
+
+  font-size: 11px;
+  font-weight: 500;
+
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.job-card:hover .job-tag {
+  background: rgba(74, 157, 255, 0.1);
+  border-color: rgba(74, 157, 255, 0.2);
+}
+
+/* Footer */
+.job-card-footer {
+  position: relative;
+  z-index: 2;
+
+  margin-top: 30px;
+}
+
+/* Apply button */
+.job-apply-button {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 7px 7px 7px 18px;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      100deg,
+      rgba(39, 123, 255, 0.18),
+      rgba(117, 79, 255, 0.16)
+    );
+
+  border: 1px solid rgba(93, 177, 255, 0.2);
+
+  border-radius: 13px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    background 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    transform 0.25s ease;
+}
+
+.job-apply-button:hover {
+  background:
+    linear-gradient(
+      100deg,
+      rgba(39, 123, 255, 0.28),
+      rgba(117, 79, 255, 0.25)
+    );
+
+  border-color: rgba(93, 190, 255, 0.42);
+
+  box-shadow:
+    0 0 28px rgba(55, 145, 255, 0.12);
+}
+
+.job-apply-button:active {
+  transform: scale(0.98);
+}
+
+/* Arrow */
+.job-apply-icon {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+
+  background: rgba(255, 255, 255, 0.09);
+
+  border-radius: 9px;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+.job-apply-button:hover .job-apply-icon {
+  transform: translate(2px, -2px);
+
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .job-card {
+    min-height: 390px;
+    padding: 24px;
+  }
+
+  .job-card-title {
+    font-size: 23px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .job-card {
+    min-height: auto;
+    padding: 22px;
+
+    border-radius: 20px;
+  }
+
+  .job-card-header {
+    margin-bottom: 24px;
+  }
+
+  .job-card-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .job-card-title {
+    font-size: 21px;
+  }
+
+  .job-card-description {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .job-card-meta {
+    gap: 7px;
+  }
+
+  .job-meta-item {
+    font-size: 11px;
+    padding: 6px 9px;
+  }
+
+  .job-card-tags {
+    margin-top: 18px;
+  }
+
+  .job-card-footer {
+    margin-top: 25px;
+  }
+}

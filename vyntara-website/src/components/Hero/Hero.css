@@ -1,0 +1,1157 @@
+/* =========================================
+   HERO
+========================================= */
+
+.v-hero {
+  position: relative;
+
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 75% 45%,
+      rgba(59, 130, 246, 0.11),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 25% 80%,
+      rgba(139, 92, 246, 0.07),
+      transparent 28%
+    ),
+    var(--v-bg);
+}
+
+
+/* =========================================
+   PARTICLE BACKGROUND
+========================================= */
+
+.particle-background {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  z-index: 0;
+
+  pointer-events: none;
+
+  opacity: 1;
+}
+
+.particle-background > div {
+  width: 100%;
+  height: 100%;
+}
+
+.particle-background canvas {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  display: block;
+
+  pointer-events: none;
+}
+
+
+/* =========================================
+   GRID
+========================================= */
+
+.v-hero__grid {
+  position: absolute;
+
+  inset: 0;
+
+  opacity: 0.32;
+
+  z-index: 1;
+
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px
+    );
+
+  background-size: 72px 72px;
+
+  mask-image:
+    radial-gradient(
+      ellipse at center,
+      black 10%,
+      transparent 75%
+    );
+
+  -webkit-mask-image:
+    radial-gradient(
+      ellipse at center,
+      black 10%,
+      transparent 75%
+    );
+}
+
+
+/* =========================================
+   CONTAINER
+========================================= */
+
+.v-hero__container {
+  position: relative;
+
+  z-index: 5;
+
+  width: 100%;
+
+  min-height: 100vh;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.08fr)
+    minmax(400px, 0.92fr);
+
+  align-items: center;
+
+  gap: 50px;
+
+  padding-top: 95px;
+  padding-bottom: 70px;
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.v-hero__content {
+  position: relative;
+
+  z-index: 6;
+
+  max-width: 760px;
+}
+
+
+/* =========================================
+   BADGE
+========================================= */
+
+.v-hero__badge {
+  width: fit-content;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 8px 13px;
+
+  margin-bottom: 25px;
+
+  border: 1px solid rgba(34, 211, 238, 0.17);
+
+  border-radius: 100px;
+
+  color: #a5f3fc;
+
+  background: rgba(34, 211, 238, 0.045);
+
+  font-size: 11px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.04em;
+}
+
+.v-hero__badge svg {
+  color: var(--v-cyan);
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================
+   TITLE
+========================================= */
+
+.v-hero__title {
+  max-width: 850px;
+
+  margin: 0;
+
+  font-family: 'Space Grotesk', sans-serif;
+
+  font-size: clamp(48px, 5.3vw, 78px);
+
+  line-height: 1.015;
+
+  letter-spacing: -0.055em;
+
+  font-weight: 600;
+
+  color: #f8fafc;
+}
+
+
+/* =========================================
+   TYPEWRITER
+========================================= */
+
+.v-typewriter-gradient {
+  background:
+    linear-gradient(
+      100deg,
+      #60a5fa 0%,
+      #22d3ee 45%,
+      #a78bfa 100%
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+
+  color: transparent;
+}
+
+
+/* =========================================
+   TYPEWRITER CURSOR
+========================================= */
+
+.v-typewriter-cursor {
+  display: inline-block;
+
+  margin-left: 4px;
+
+  color: #22d3ee;
+
+  font-family: 'Space Grotesk', sans-serif;
+
+  font-weight: 400;
+
+  -webkit-text-fill-color: #22d3ee;
+
+  text-shadow:
+    0 0 10px rgba(34, 211, 238, 0.9),
+    0 0 22px rgba(34, 211, 238, 0.5);
+
+  animation:
+    v-typewriter-cursor-blink
+    0.7s
+    steps(1)
+    infinite;
+}
+
+@keyframes v-typewriter-cursor-blink {
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.v-hero__description {
+  max-width: 650px;
+
+  margin-top: 28px;
+
+  color: #94a3b8;
+
+  font-size: 16px;
+
+  line-height: 1.8;
+}
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.v-hero__actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  margin-top: 35px;
+}
+
+.v-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  min-height: 48px;
+
+  padding: 0 19px;
+
+  border-radius: 13px;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  transition:
+    transform var(--v-transition),
+    box-shadow var(--v-transition),
+    background var(--v-transition),
+    border-color var(--v-transition);
+}
+
+
+/* =========================================
+   PRIMARY BUTTON
+========================================= */
+
+.v-button--primary {
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      110deg,
+      #2563eb,
+      #7c3aed
+    );
+
+  box-shadow:
+    0 12px 35px rgba(59, 130, 246, 0.18);
+}
+
+.v-button--primary:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 18px 45px rgba(59, 130, 246, 0.3);
+}
+
+
+/* =========================================
+   SECONDARY BUTTON
+========================================= */
+
+.v-button--secondary {
+  color: #dbeafe;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.v-button--secondary:hover {
+  transform: translateY(-3px);
+
+  border-color: rgba(255, 255, 255, 0.17);
+
+  background: rgba(255, 255, 255, 0.065);
+}
+
+.v-button__play {
+  width: 25px;
+  height: 25px;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.08);
+}
+
+
+/* =========================================
+   STATS
+========================================= */
+
+.v-hero__stats {
+  display: flex;
+
+  align-items: center;
+
+  gap: 24px;
+
+  margin-top: 52px;
+}
+
+.v-hero__stat {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.v-hero__stat strong {
+  font-family: 'Space Grotesk', sans-serif;
+
+  font-size: 20px;
+
+  font-weight: 600;
+
+  color: #ffffff;
+}
+
+.v-hero__stat span {
+  color: #64748b;
+
+  font-size: 9px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.1em;
+
+  text-transform: uppercase;
+}
+
+.v-hero__stat-divider {
+  width: 1px;
+
+  height: 32px;
+
+  background: rgba(255, 255, 255, 0.1);
+}
+
+
+/* =========================================
+   HERO VISUAL
+========================================= */
+
+.v-hero__visual {
+  position: relative;
+
+  width: min(100%, 560px);
+
+  aspect-ratio: 1;
+
+  display: grid;
+
+  place-items: center;
+
+  margin: auto;
+
+  z-index: 6;
+}
+
+
+/* =========================================
+   RINGS
+========================================= */
+
+.v-hero__ring {
+  position: absolute;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(96, 165, 250, 0.1);
+
+  pointer-events: none;
+
+  z-index: 2;
+}
+
+.v-hero__ring::before {
+  content: '';
+
+  position: absolute;
+
+  top: 50%;
+  left: 0;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  transform: translate(-50%, -50%);
+
+  background: #60a5fa;
+
+  box-shadow:
+    0 0 18px rgba(96, 165, 250, 0.9);
+}
+
+.v-hero__ring--one {
+  width: 90%;
+  height: 90%;
+
+  animation:
+    v-ring-rotate
+    22s
+    linear
+    infinite;
+}
+
+.v-hero__ring--two {
+  width: 70%;
+  height: 70%;
+
+  border-color: rgba(34, 211, 238, 0.14);
+
+  animation:
+    v-ring-rotate-reverse
+    16s
+    linear
+    infinite;
+}
+
+.v-hero__ring--three {
+  width: 50%;
+  height: 50%;
+
+  border-color: rgba(139, 92, 246, 0.18);
+
+  animation:
+    v-ring-rotate
+    11s
+    linear
+    infinite;
+}
+
+
+/* =========================================
+   CORE
+========================================= */
+
+.v-hero__core {
+  position: relative;
+
+  width: 190px;
+  height: 190px;
+
+  display: grid;
+
+  place-items: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.13);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(59, 130, 246, 0.25),
+      rgba(139, 92, 246, 0.08) 50%,
+      transparent 72%
+    );
+
+  box-shadow:
+    0 0 100px rgba(59, 130, 246, 0.18),
+    inset 0 0 60px rgba(34, 211, 238, 0.07);
+
+  backdrop-filter: blur(12px);
+
+  -webkit-backdrop-filter: blur(12px);
+
+  z-index: 3;
+}
+
+.v-hero__core-glow {
+  position: absolute;
+
+  width: 65%;
+  height: 65%;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(34, 211, 238, 0.22),
+      transparent 70%
+    );
+
+  filter: blur(12px);
+
+  animation:
+    v-core-pulse
+    4s
+    ease-in-out
+    infinite;
+}
+
+.v-hero__core span {
+  position: relative;
+
+  z-index: 2;
+
+  font-family: 'Space Grotesk', sans-serif;
+
+  font-size: 108px;
+
+  font-weight: 700;
+
+  line-height: 1;
+
+  background:
+    linear-gradient(
+      135deg,
+      #60a5fa,
+      #22d3ee 45%,
+      #a78bfa
+    );
+
+  -webkit-background-clip: text;
+
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+
+  color: transparent;
+
+  filter:
+    drop-shadow(
+      0 0 25px rgba(34, 211, 238, 0.25)
+    );
+}
+
+
+/* =========================================
+   FLOATING CARDS
+========================================= */
+
+.v-floating-card {
+  position: absolute;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 11px 14px;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  border-radius: 12px;
+
+  color: #cbd5e1;
+
+  background: rgba(7, 11, 20, 0.7);
+
+  backdrop-filter: blur(16px);
+
+  -webkit-backdrop-filter: blur(16px);
+
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.25);
+
+  font-size: 10px;
+
+  font-weight: 500;
+
+  white-space: nowrap;
+
+  z-index: 5;
+
+  animation:
+    v-floating-card
+    5s
+    ease-in-out
+    infinite;
+}
+
+.v-floating-card i {
+  width: 7px;
+  height: 7px;
+
+  display: block;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: var(--v-cyan);
+
+  box-shadow:
+    0 0 13px rgba(34, 211, 238, 0.85);
+}
+
+.v-floating-card--one {
+  top: 17%;
+
+  right: 2%;
+}
+
+.v-floating-card--two {
+  bottom: 18%;
+
+  left: 0;
+
+  animation-delay: -1.6s;
+}
+
+.v-floating-card--three {
+  top: 47%;
+
+  right: -4%;
+
+  animation-delay: -3.2s;
+}
+
+
+/* =========================================
+   AMBIENT GLOWS
+========================================= */
+
+.v-hero__glow {
+  position: absolute;
+
+  width: 420px;
+  height: 420px;
+
+  border-radius: 50%;
+
+  filter: blur(110px);
+
+  opacity: 0.13;
+
+  pointer-events: none;
+
+  z-index: 1;
+}
+
+.v-hero__glow--blue {
+  top: 10%;
+
+  right: 8%;
+
+  background: #2563eb;
+}
+
+.v-hero__glow--violet {
+  bottom: 0;
+
+  left: 10%;
+
+  background: #7c3aed;
+}
+
+
+/* =========================================
+   DECORATIVE PARTICLES
+========================================= */
+
+.v-hero__particle {
+  position: absolute;
+
+  width: 4px;
+  height: 4px;
+
+  border-radius: 50%;
+
+  background: #67e8f9;
+
+  box-shadow:
+    0 0 15px rgba(34, 211, 238, 0.8);
+
+  animation:
+    v-particle
+    7s
+    ease-in-out
+    infinite;
+
+  z-index: 2;
+
+  pointer-events: none;
+}
+
+.v-hero__particle--one {
+  top: 25%;
+
+  left: 8%;
+}
+
+.v-hero__particle--two {
+  right: 30%;
+
+  bottom: 18%;
+
+  animation-delay: -2s;
+}
+
+.v-hero__particle--three {
+  top: 18%;
+
+  right: 42%;
+
+  animation-delay: -4s;
+}
+
+
+/* =========================================
+   BOTTOM FADE
+========================================= */
+
+.v-hero__bottom-fade {
+  position: absolute;
+
+  bottom: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 180px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      var(--v-bg)
+    );
+
+  pointer-events: none;
+
+  z-index: 7;
+}
+
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes v-ring-rotate {
+
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+@keyframes v-ring-rotate-reverse {
+
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
+
+}
+
+@keyframes v-core-pulse {
+
+  0%,
+  100% {
+    transform: scale(0.95);
+
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scale(1.08);
+
+    opacity: 1;
+  }
+
+}
+
+@keyframes v-floating-card {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+}
+
+@keyframes v-particle {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+
+    opacity: 0.45;
+  }
+
+  50% {
+    transform: translate(20px, -25px);
+
+    opacity: 1;
+  }
+
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1050px) {
+
+  .v-hero__container {
+    grid-template-columns: 1fr;
+
+    text-align: center;
+
+    gap: 20px;
+
+    padding-top: 130px;
+  }
+
+  .v-hero__content {
+    margin: 0 auto;
+  }
+
+  .v-hero__badge {
+    margin-left: auto;
+
+    margin-right: auto;
+  }
+
+  .v-hero__description {
+    margin-left: auto;
+
+    margin-right: auto;
+  }
+
+  .v-hero__actions {
+    justify-content: center;
+  }
+
+  .v-hero__stats {
+    justify-content: center;
+  }
+
+  .v-hero__visual {
+    width: min(80vw, 520px);
+  }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+  .v-hero {
+    min-height: auto;
+  }
+
+  .v-hero__container {
+    min-height: auto;
+
+    padding-top: 125px;
+
+    padding-bottom: 70px;
+  }
+
+  .v-hero__title {
+    font-size: clamp(
+      40px,
+      10.8vw,
+      58px
+    );
+
+    letter-spacing: -0.05em;
+  }
+
+  /*
+    Keep the typewriter as a normal text flow
+    on mobile so long text can wrap naturally.
+  */
+
+  .v-typewriter-gradient {
+    display: inline;
+  }
+
+  .v-typewriter-cursor {
+    margin-left: 3px;
+  }
+
+  .v-hero__description {
+    font-size: 14px;
+
+    line-height: 1.75;
+  }
+
+  .v-hero__actions {
+    flex-direction: column;
+
+    margin-top: 28px;
+  }
+
+  .v-button {
+    width: min(100%, 290px);
+  }
+
+  .v-hero__stats {
+    gap: 15px;
+
+    margin-top: 42px;
+  }
+
+  .v-hero__stat strong {
+    font-size: 18px;
+  }
+
+  .v-hero__stat span {
+    font-size: 8px;
+  }
+
+  .v-hero__stat-divider {
+    height: 28px;
+  }
+
+  .v-hero__visual {
+    width: 100%;
+
+    margin-top: 10px;
+  }
+
+  .v-hero__core {
+    width: 145px;
+
+    height: 145px;
+  }
+
+  .v-hero__core span {
+    font-size: 78px;
+  }
+
+  .v-floating-card {
+    padding: 8px 10px;
+
+    font-size: 8px;
+  }
+
+  .v-floating-card--one {
+    right: 1%;
+  }
+
+  .v-floating-card--two {
+    left: 0;
+  }
+
+  .v-floating-card--three {
+    right: 0;
+  }
+
+  .v-hero__ring--one {
+    width: 92%;
+
+    height: 92%;
+  }
+
+  .v-hero__ring--two {
+    width: 72%;
+
+    height: 72%;
+  }
+
+  .v-hero__ring--three {
+    width: 52%;
+
+    height: 52%;
+  }
+
+  .particle-background {
+    opacity: 0.72;
+  }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 420px) {
+
+  .v-hero__container {
+    padding-top: 115px;
+  }
+
+  .v-hero__title {
+    font-size: 39px;
+  }
+
+  .v-hero__stats {
+    gap: 10px;
+  }
+
+  .v-hero__visual {
+    transform: scale(0.9);
+
+    margin-top: -10px;
+
+    margin-bottom: -20px;
+  }
+
+  .v-hero__bottom-fade {
+    height: 120px;
+  }
+
+}
+
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .v-typewriter-cursor {
+    animation: none;
+
+    opacity: 1;
+  }
+
+  .v-hero__ring,
+  .v-hero__core-glow,
+  .v-floating-card,
+  .v-hero__particle {
+    animation: none;
+  }
+
+  .particle-background {
+    opacity: 0.35;
+  }
+
+}

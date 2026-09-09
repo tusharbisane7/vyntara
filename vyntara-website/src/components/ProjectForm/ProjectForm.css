@@ -1,0 +1,793 @@
+/* =========================================
+   PROJECT FORM OVERLAY
+========================================= */
+
+.project-form-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 9999;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 25px;
+
+  overflow-y: auto;
+
+  background: rgba(0, 0, 0, 0.78);
+
+  backdrop-filter: blur(14px);
+
+  -webkit-backdrop-filter: blur(14px);
+
+  animation: projectOverlayIn 250ms ease;
+}
+
+
+/* =========================================
+   MODAL
+========================================= */
+
+.project-form-modal {
+  position: relative;
+
+  width: min(100%, 760px);
+
+  max-height: calc(100vh - 50px);
+
+  overflow-y: auto;
+
+  border: 1px solid rgba(255, 255, 255, 0.11);
+
+  border-radius: 24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(10, 16, 30, 0.98),
+      rgba(3, 6, 14, 0.99)
+    );
+
+  box-shadow:
+    0 40px 120px rgba(0, 0, 0, 0.65),
+    0 0 80px rgba(59, 130, 246, 0.08);
+
+  animation: projectModalIn 350ms cubic-bezier(
+    0.22,
+    1,
+    0.36,
+    1
+  );
+}
+
+
+/* Scrollbar */
+
+.project-form-modal::-webkit-scrollbar {
+  width: 5px;
+}
+
+.project-form-modal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.project-form-modal::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.12);
+}
+
+
+/* =========================================
+   CLOSE BUTTON
+========================================= */
+
+.project-form-close {
+  position: absolute;
+
+  top: 20px;
+
+  right: 20px;
+
+  z-index: 5;
+
+  display: grid;
+
+  place-items: center;
+
+  width: 40px;
+
+  height: 40px;
+
+  padding: 0;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  border-radius: 11px;
+
+  color: #94a3b8;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  transition:
+    color 200ms ease,
+    border-color 200ms ease,
+    background 200ms ease,
+    transform 200ms ease;
+}
+
+.project-form-close:hover {
+  color: #ffffff;
+
+  border-color: rgba(34, 211, 238, 0.3);
+
+  background: rgba(34, 211, 238, 0.06);
+
+  transform: rotate(5deg);
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.project-form-content {
+  padding: 48px;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.project-form-header {
+  max-width: 600px;
+
+  padding-right: 45px;
+
+  margin-bottom: 32px;
+}
+
+
+.project-form-eyebrow {
+  display: inline-block;
+
+  margin-bottom: 12px;
+
+  color: var(--v-cyan);
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.2em;
+}
+
+
+.project-form-header h2,
+.project-form-success h2 {
+  margin: 0;
+
+  color: #f8fafc;
+
+  font-family: 'Space Grotesk', sans-serif;
+
+  font-size: clamp(30px, 4vw, 42px);
+
+  font-weight: 600;
+
+  line-height: 1.1;
+
+  letter-spacing: -0.035em;
+}
+
+
+.project-form-header h2 span,
+.project-form-success h2 span {
+  background:
+    linear-gradient(
+      100deg,
+      var(--v-cyan),
+      var(--v-blue),
+      var(--v-violet)
+    );
+
+  -webkit-background-clip: text;
+
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+}
+
+
+.project-form-header p {
+  max-width: 570px;
+
+  margin-top: 15px;
+
+  color: #64748b;
+
+  font-size: 12px;
+
+  line-height: 1.8;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.project-form {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 17px;
+}
+
+
+.project-form-row {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 16px;
+}
+
+
+.project-form-field {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+
+.project-form-field label {
+  color: #cbd5e1;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.02em;
+}
+
+
+.project-form-field label span {
+  margin-left: 3px;
+
+  color: var(--v-cyan);
+}
+
+
+.project-form-field input,
+.project-form-field select,
+.project-form-field textarea {
+  width: 100%;
+
+  border: 1px solid rgba(255, 255, 255, 0.09);
+
+  border-radius: 11px;
+
+  outline: none;
+
+  color: #f8fafc;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  font-size: 12px;
+
+  transition:
+    border-color 200ms ease,
+    background 200ms ease,
+    box-shadow 200ms ease;
+}
+
+
+.project-form-field input,
+.project-form-field select {
+  height: 46px;
+
+  padding: 0 13px;
+}
+
+
+.project-form-field textarea {
+  min-height: 110px;
+
+  padding: 13px;
+
+  resize: vertical;
+
+  line-height: 1.6;
+}
+
+
+/* Placeholder */
+
+.project-form-field input::placeholder,
+.project-form-field textarea::placeholder {
+  color: #475569;
+}
+
+
+/* Select */
+
+.project-form-field select {
+  cursor: pointer;
+}
+
+
+.project-form-field select option {
+  color: #ffffff;
+
+  background: #080d18;
+}
+
+
+/* Focus */
+
+.project-form-field input:focus,
+.project-form-field select:focus,
+.project-form-field textarea:focus {
+  border-color: rgba(34, 211, 238, 0.42);
+
+  background: rgba(34, 211, 238, 0.025);
+
+  box-shadow:
+    0 0 0 3px rgba(34, 211, 238, 0.055);
+}
+
+
+/* =========================================
+   SUBMIT BUTTON
+========================================= */
+
+.project-form-submit {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 9px;
+
+  width: 100%;
+
+  min-height: 50px;
+
+  margin-top: 5px;
+
+  border-radius: 12px;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      110deg,
+      var(--v-blue),
+      var(--v-violet)
+    );
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  box-shadow:
+    0 12px 35px rgba(59, 130, 246, 0.14);
+
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease,
+    filter 200ms ease;
+}
+
+
+.project-form-submit:hover {
+  transform: translateY(-2px);
+
+  filter: brightness(1.08);
+
+  box-shadow:
+    0 16px 45px rgba(59, 130, 246, 0.22);
+}
+
+
+.project-form-submit svg {
+  transition:
+    transform 200ms ease;
+}
+
+
+.project-form-submit:hover svg {
+  transform: translate(3px, -2px);
+}
+
+
+/* =========================================
+   FORM NOTE
+========================================= */
+
+.project-form-note {
+  margin-top: -5px;
+
+  color: #475569;
+
+  font-size: 8px;
+
+  line-height: 1.6;
+
+  text-align: center;
+}
+
+
+/* =========================================
+   SUCCESS
+========================================= */
+
+.project-form-success {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  padding: 75px 48px 60px;
+
+  text-align: center;
+}
+
+
+.project-success-icon {
+  display: grid;
+
+  place-items: center;
+
+  width: 82px;
+
+  height: 82px;
+
+  margin-bottom: 25px;
+
+  border: 1px solid rgba(34, 211, 238, 0.2);
+
+  border-radius: 50%;
+
+  color: var(--v-cyan);
+
+  background: rgba(34, 211, 238, 0.06);
+
+  box-shadow:
+    0 0 50px rgba(34, 211, 238, 0.1);
+
+  animation: successPulse 2s ease-in-out infinite;
+}
+
+
+.project-form-success .project-form-eyebrow {
+  margin-bottom: 10px;
+}
+
+
+.project-form-success h2 {
+  max-width: 550px;
+}
+
+
+.project-form-success p {
+  max-width: 500px;
+
+  margin-top: 16px;
+
+  color: #64748b;
+
+  font-size: 12px;
+
+  line-height: 1.8;
+}
+
+
+/* =========================================
+   SUCCESS DETAILS
+========================================= */
+
+.project-success-details {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 11px;
+
+  width: min(100%, 400px);
+
+  margin-top: 28px;
+
+  padding: 18px;
+
+  border: 1px solid rgba(255, 255, 255, 0.07);
+
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.025);
+
+  text-align: left;
+}
+
+
+.project-success-details div {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: #94a3b8;
+
+  font-size: 10px;
+}
+
+
+.project-success-details svg {
+  flex-shrink: 0;
+
+  color: var(--v-cyan);
+}
+
+
+/* =========================================
+   SUCCESS BUTTON
+========================================= */
+
+.project-success-button {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  min-height: 44px;
+
+  margin-top: 25px;
+
+  padding: 0 20px;
+
+  border: 1px solid rgba(34, 211, 238, 0.25);
+
+  border-radius: 11px;
+
+  color: #ffffff;
+
+  background: rgba(34, 211, 238, 0.05);
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  transition:
+    transform 200ms ease,
+    background 200ms ease,
+    border-color 200ms ease;
+}
+
+
+.project-success-button:hover {
+  transform: translateY(-2px);
+
+  border-color: rgba(34, 211, 238, 0.45);
+
+  background: rgba(34, 211, 238, 0.09);
+}
+
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes projectOverlayIn {
+
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+@keyframes projectModalIn {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(25px)
+      scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+@keyframes successPulse {
+
+  0%,
+  100% {
+    box-shadow:
+      0 0 30px rgba(34, 211, 238, 0.07);
+  }
+
+  50% {
+    box-shadow:
+      0 0 55px rgba(34, 211, 238, 0.16);
+  }
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 700px) {
+
+  .project-form-overlay {
+    align-items: flex-start;
+
+    padding: 15px;
+  }
+
+
+  .project-form-modal {
+    max-height: calc(100vh - 30px);
+
+    border-radius: 20px;
+  }
+
+
+  .project-form-content {
+    padding: 40px 25px 30px;
+  }
+
+
+  .project-form-header {
+    padding-right: 35px;
+
+    margin-bottom: 27px;
+  }
+
+
+  .project-form-row {
+    grid-template-columns: 1fr;
+
+    gap: 17px;
+  }
+
+
+  .project-form-success {
+    padding: 65px 25px 45px;
+  }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+  .project-form-overlay {
+    padding: 10px;
+  }
+
+
+  .project-form-modal {
+    max-height: calc(100vh - 20px);
+
+    border-radius: 18px;
+  }
+
+
+  .project-form-close {
+    top: 14px;
+
+    right: 14px;
+
+    width: 36px;
+
+    height: 36px;
+  }
+
+
+  .project-form-content {
+    padding: 35px 18px 25px;
+  }
+
+
+  .project-form-header {
+    padding-right: 35px;
+
+    margin-bottom: 23px;
+  }
+
+
+  .project-form-header h2,
+  .project-form-success h2 {
+    font-size: 28px;
+  }
+
+
+  .project-form-header p,
+  .project-form-success p {
+    font-size: 11px;
+  }
+
+
+  .project-form-field input,
+  .project-form-field select {
+    height: 44px;
+  }
+
+
+  .project-form-field textarea {
+    min-height: 100px;
+  }
+
+
+  .project-form-success {
+    padding: 60px 18px 35px;
+  }
+
+
+  .project-success-icon {
+    width: 70px;
+
+    height: 70px;
+  }
+
+
+  .project-success-icon svg {
+    width: 40px;
+
+    height: 40px;
+  }
+
+
+  .project-success-details {
+    padding: 15px;
+  }
+}
+
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .project-form-overlay,
+  .project-form-modal,
+  .project-success-icon {
+    animation: none;
+  }
+
+  .project-form-close,
+  .project-form-submit,
+  .project-success-button {
+    transition: none;
+  }
+}

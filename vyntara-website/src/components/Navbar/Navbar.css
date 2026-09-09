@@ -1,0 +1,712 @@
+/* =========================================
+   VYNTARA TECHNOLOGIES
+   TRUE TRANSPARENT NAVBAR
+========================================= */
+
+.v-navbar {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+
+  z-index: 1000;
+
+  padding: 18px 0;
+
+  /* =====================================
+     TRUE TRANSPARENT NAVBAR
+  ===================================== */
+
+  background: transparent !important;
+
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+
+  box-shadow: none !important;
+
+  border-bottom: 1px solid transparent;
+
+  transition: none;
+}
+
+
+/* =========================================
+   NAVBAR INNER
+========================================= */
+
+.v-navbar__inner {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  min-height: 44px;
+}
+
+
+/* =========================================
+   BRAND
+========================================= */
+
+.v-brand {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  flex-shrink: 0;
+
+  text-decoration: none;
+
+  line-height: 0;
+
+  transition:
+    opacity 250ms ease,
+    transform 250ms ease;
+}
+
+.v-brand:hover {
+  opacity: 0.92;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================
+   VYNTARA LOGO SYMBOL
+========================================= */
+
+.v-brand__logo {
+  display: block;
+
+  width: 62px;
+  height: 62px;
+
+  flex-shrink: 0;
+
+  object-fit: contain;
+
+  object-position: center;
+}
+
+
+/* =========================================
+   VYNTARA COMPANY NAME
+========================================= */
+
+.v-brand__name {
+  display: block;
+
+  width: 525px;
+
+  height: auto;
+
+  max-height: 38px;
+
+  flex-shrink: 0;
+
+  object-fit: contain;
+
+  object-position: left center;
+}
+
+
+/* =========================================
+   DESKTOP NAVIGATION
+========================================= */
+
+.v-navbar__links {
+  display: flex;
+
+  align-items: center;
+
+  gap: 34px;
+
+  margin-left: auto;
+
+  margin-right: 40px;
+}
+
+
+/* =========================================
+   NAVIGATION LINK
+========================================= */
+
+.v-navbar__link {
+  position: relative;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  color: #94a3b8;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  white-space: nowrap;
+
+  transition:
+    color var(--v-transition);
+}
+
+
+/* =========================================
+   NAVIGATION UNDERLINE
+========================================= */
+
+.v-navbar__link::after {
+  content: '';
+
+  position: absolute;
+
+  left: 0;
+
+  bottom: -8px;
+
+  width: 0;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--v-blue),
+      var(--v-cyan)
+    );
+
+  transition:
+    width var(--v-transition);
+}
+
+
+/* =========================================
+   NAVIGATION HOVER
+========================================= */
+
+.v-navbar__link:hover {
+  color: #ffffff;
+}
+
+.v-navbar__link:hover::after {
+  width: 100%;
+}
+
+
+/* =========================================
+   DESKTOP CTA
+========================================= */
+
+.v-navbar__cta {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  min-height: 40px;
+
+  padding: 11px 17px;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  border-radius: 12px;
+
+  color: #ffffff;
+
+  /*
+    CTA itself stays slightly glassy.
+    Navbar remains completely transparent.
+  */
+
+  background: rgba(255, 255, 255, 0.045);
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  transition:
+    transform var(--v-transition),
+    background var(--v-transition),
+    border-color var(--v-transition),
+    box-shadow var(--v-transition);
+}
+
+.v-navbar__cta:hover {
+  transform: translateY(-2px);
+
+  border-color: rgba(34, 211, 238, 0.35);
+
+  background: rgba(34, 211, 238, 0.07);
+
+  box-shadow:
+    0 10px 30px rgba(34, 211, 238, 0.08);
+}
+
+
+/* =========================================
+   DESKTOP CTA ICON
+========================================= */
+
+.v-navbar__cta svg {
+  flex-shrink: 0;
+
+  transition:
+    transform 250ms ease;
+}
+
+.v-navbar__cta:hover svg {
+  transform: translate(2px, -2px);
+}
+
+
+/* =========================================
+   MOBILE MENU BUTTON
+========================================= */
+
+.v-navbar__menu {
+  display: none;
+
+  width: 42px;
+
+  height: 42px;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  padding: 0;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  border-radius: 12px;
+
+  color: #ffffff;
+
+  /*
+    Only the button has a subtle glass effect.
+    The navbar itself does not.
+  */
+
+  background: rgba(255, 255, 255, 0.035);
+
+  backdrop-filter: blur(10px);
+
+  -webkit-backdrop-filter: blur(10px);
+
+  transition:
+    background 200ms ease,
+    border-color 200ms ease,
+    transform 200ms ease,
+    box-shadow 200ms ease;
+}
+
+
+/* =========================================
+   MOBILE BUTTON HOVER
+========================================= */
+
+.v-navbar__menu:hover {
+  border-color: rgba(34, 211, 238, 0.3);
+
+  background: rgba(34, 211, 238, 0.06);
+
+  box-shadow:
+    0 8px 25px rgba(34, 211, 238, 0.08);
+}
+
+
+/* =========================================
+   MOBILE BUTTON ACTIVE
+========================================= */
+
+.v-navbar__menu:active {
+  transform: scale(0.95);
+}
+
+
+/* =========================================
+   MOBILE MENU ICON
+========================================= */
+
+.v-navbar__menu svg {
+  width: 22px;
+
+  height: 22px;
+}
+
+
+/* =========================================
+   MOBILE DROPDOWN
+========================================= */
+
+.v-mobile-menu {
+  display: none;
+}
+
+
+/* =========================================
+   TABLET / MOBILE
+========================================= */
+
+@media (max-width: 900px) {
+
+  .v-navbar__links,
+  .v-navbar__cta {
+    display: none;
+  }
+
+  .v-navbar__menu {
+    display: flex;
+  }
+
+  .v-mobile-menu {
+    position: absolute;
+
+    top: calc(100% + 10px);
+
+    left: 16px;
+
+    right: 16px;
+
+    display: block;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transform: translateY(-10px);
+
+    transition:
+      opacity 250ms ease,
+      visibility 250ms ease,
+      transform 250ms ease;
+  }
+
+  .v-mobile-menu--open {
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+
+    transform: translateY(0);
+  }
+
+
+  /* =====================================
+     MOBILE MENU CONTAINER
+  ===================================== */
+
+  .v-mobile-menu__inner {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+    padding: 12px;
+
+    border: 1px solid var(--v-border);
+
+    border-radius: 18px;
+
+    /*
+      Dropdown remains glass.
+    */
+
+    background: rgba(5, 8, 16, 0.82);
+
+    backdrop-filter: blur(25px);
+
+    -webkit-backdrop-filter: blur(25px);
+
+    box-shadow:
+      0 25px 70px rgba(0, 0, 0, 0.45);
+  }
+
+
+  /* =====================================
+     MOBILE NAVIGATION LINK
+  ===================================== */
+
+  .v-mobile-menu__link {
+    display: flex;
+
+    align-items: center;
+
+    min-height: 44px;
+
+    padding: 13px 12px;
+
+    border-radius: 10px;
+
+    color: #94a3b8;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    transition:
+      color 200ms ease,
+      background 200ms ease,
+      transform 200ms ease;
+  }
+
+  .v-mobile-menu__link:hover {
+    color: #ffffff;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    transform: translateX(3px);
+  }
+
+
+  /* =====================================
+     MOBILE CTA
+  ===================================== */
+
+  .v-mobile-menu__cta {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    min-height: 46px;
+
+    margin-top: 7px;
+
+    padding: 13px;
+
+    border-radius: 11px;
+
+    color: #ffffff;
+
+    background:
+      linear-gradient(
+        110deg,
+        var(--v-blue),
+        var(--v-violet)
+      );
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition:
+      transform 200ms ease,
+      box-shadow 200ms ease;
+  }
+
+  .v-mobile-menu__cta:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+      0 10px 30px rgba(59, 130, 246, 0.2);
+  }
+
+  .v-mobile-menu__cta svg {
+    transition:
+      transform 200ms ease;
+  }
+
+  .v-mobile-menu__cta:hover svg {
+    transform: translate(2px, -2px);
+  }
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+
+  .v-navbar {
+    padding: 16px 0;
+
+    /*
+      IMPORTANT:
+      Still completely transparent.
+      No blur on navbar.
+    */
+
+    background: transparent !important;
+
+    backdrop-filter: none !important;
+
+    -webkit-backdrop-filter: none !important;
+
+    box-shadow: none !important;
+
+    border-bottom: 1px solid transparent;
+  }
+
+
+  .v-brand__logo {
+    width: 48px;
+
+    height: 48px;
+  }
+
+
+  .v-brand__name {
+    width: 115px;
+
+    max-height: 34px;
+  }
+
+
+  .v-brand {
+    gap: 8px;
+  }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+  .v-navbar {
+    padding: 14px 0;
+
+    /*
+      TRUE TRANSPARENT
+    */
+
+    background: transparent !important;
+
+    backdrop-filter: none !important;
+
+    -webkit-backdrop-filter: none !important;
+
+    box-shadow: none !important;
+
+    border-bottom: 1px solid transparent;
+  }
+
+
+  .v-brand {
+    gap: 7px;
+  }
+
+
+  .v-brand__logo {
+    width: 55px;
+
+    height: 55px;
+  }
+
+
+  .v-brand__name {
+    width: 150px;
+
+    max-height: 41px;
+  }
+
+
+  .v-navbar__menu {
+    width: 40px;
+
+    height: 40px;
+
+    border-radius: 11px;
+  }
+
+
+  .v-navbar__menu svg {
+    width: 20px;
+
+    height: 20px;
+  }
+
+
+  .v-mobile-menu {
+    left: 12px;
+
+    right: 12px;
+
+    top: calc(100% + 8px);
+  }
+
+
+  .v-mobile-menu__inner {
+    padding: 10px;
+
+    border-radius: 16px;
+  }
+}
+
+
+/* =========================================
+   VERY SMALL DEVICES
+========================================= */
+
+@media (max-width: 360px) {
+
+  .v-brand {
+    gap: 6px;
+  }
+
+
+  .v-brand__logo {
+    width: 32px;
+
+    height: 32px;
+  }
+
+
+  .v-brand__name {
+    width: 95px;
+
+    max-height: 28px;
+  }
+
+
+  .v-navbar__menu {
+    width: 38px;
+
+    height: 38px;
+  }
+}
+
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .v-brand,
+  .v-navbar__link,
+  .v-navbar__link::after,
+  .v-navbar__cta,
+  .v-navbar__cta svg,
+  .v-navbar__menu,
+  .v-mobile-menu,
+  .v-mobile-menu__link,
+  .v-mobile-menu__cta,
+  .v-mobile-menu__cta svg {
+    transition: none;
+  }
+}

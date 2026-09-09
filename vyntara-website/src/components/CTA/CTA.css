@@ -1,0 +1,1316 @@
+/* =========================================================
+   VYNTARA TECHNOLOGIES
+   CTA SECTION
+   Premium / Futuristic / Responsive
+========================================================= */
+
+.cta-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 150px 0 80px;
+  background:
+    radial-gradient(
+      circle at 50% 38%,
+      rgba(59, 130, 246, 0.13),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 12% 78%,
+      rgba(34, 211, 238, 0.065),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 90% 65%,
+      rgba(139, 92, 246, 0.075),
+      transparent 25%
+    ),
+    var(--v-bg);
+}
+
+/* =========================================================
+   BACKGROUND GRID
+========================================================= */
+
+.cta-grid-background {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  opacity: 0.3;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.032) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.032) 1px,
+      transparent 1px
+    );
+
+  background-size: 72px 72px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 15%,
+    black 82%,
+    transparent 100%
+  );
+
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 15%,
+    black 82%,
+    transparent 100%
+  );
+}
+
+/* =========================================================
+   AMBIENT ORBS
+========================================================= */
+
+.cta-orb {
+  position: absolute;
+  z-index: -2;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(110px);
+  will-change: transform;
+}
+
+.cta-orb-one {
+  top: -260px;
+  left: 50%;
+  width: 560px;
+  height: 560px;
+  transform: translateX(-50%);
+  background: rgba(59, 130, 246, 0.14);
+}
+
+.cta-orb-two {
+  right: -280px;
+  bottom: 5%;
+  width: 520px;
+  height: 520px;
+  background: rgba(139, 92, 246, 0.105);
+}
+
+.cta-orb-three {
+  left: -320px;
+  bottom: 18%;
+  width: 450px;
+  height: 450px;
+  background: rgba(34, 211, 238, 0.075);
+}
+
+/* =========================================================
+   MAIN CTA CONTAINER
+========================================================= */
+
+.cta-main {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+
+  padding: 48px 56px 58px;
+
+  border: 1px solid rgba(255, 255, 255, 0.105);
+  border-radius: 32px;
+
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(59, 130, 246, 0.075),
+      transparent 53%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(139, 92, 246, 0.04),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.012)
+    );
+
+  box-shadow:
+    0 50px 140px rgba(0, 0, 0, 0.4),
+    0 0 100px rgba(59, 130, 246, 0.035),
+    inset 0 1px 0 rgba(255, 255, 255, 0.045);
+}
+
+/* Top gradient line */
+
+.cta-main::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(59, 130, 246, 0.25),
+    rgba(34, 211, 238, 0.75),
+    rgba(139, 92, 246, 0.55),
+    transparent
+  );
+}
+
+/* Decorative orbital ring */
+
+.cta-main::after {
+  content: '';
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  width: 680px;
+  height: 680px;
+
+  transform: translate(-50%, -50%);
+
+  border: 1px solid rgba(255, 255, 255, 0.023);
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 0 90px rgba(255, 255, 255, 0.005),
+    0 0 0 180px rgba(255, 255, 255, 0.003);
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   TOP LINE
+========================================================= */
+
+.cta-top-line {
+  position: relative;
+  z-index: 3;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom: 28px;
+
+  border-bottom: 1px solid var(--v-border);
+}
+
+.cta-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  color: var(--v-cyan);
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.cta-eyebrow-dot {
+  width: 7px;
+  height: 7px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: var(--v-cyan);
+
+  box-shadow:
+    0 0 10px rgba(34, 211, 238, 0.75),
+    0 0 24px rgba(34, 211, 238, 0.3);
+
+  animation: ctaPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes ctaPulse {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(0.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+.cta-index {
+  color: rgba(255, 255, 255, 0.25);
+
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.cta-content {
+  position: relative;
+  z-index: 2;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+
+  align-items: center;
+
+  gap: 90px;
+
+  padding: 90px 0 72px;
+}
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.cta-heading-wrap {
+  position: relative;
+  max-width: 780px;
+}
+
+.cta-sparkle {
+  position: absolute;
+
+  top: -22px;
+  right: 15%;
+
+  display: grid;
+  place-items: center;
+
+  width: 46px;
+  height: 46px;
+
+  border: 1px solid rgba(34, 211, 238, 0.18);
+  border-radius: 50%;
+
+  color: var(--v-cyan);
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(34, 211, 238, 0.08),
+      rgba(34, 211, 238, 0.015)
+    );
+
+  box-shadow:
+    0 0 30px rgba(34, 211, 238, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  animation: ctaSparkle 3.2s ease-in-out infinite;
+}
+
+@keyframes ctaSparkle {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(12deg) scale(1.08);
+  }
+}
+
+.cta-heading-wrap h2 {
+  margin: 0;
+
+  font-family: 'Space Grotesk', sans-serif;
+
+  font-size: clamp(56px, 7vw, 106px);
+  font-weight: 600;
+  line-height: 0.88;
+
+  letter-spacing: -0.07em;
+  text-wrap: balance;
+}
+
+.cta-heading-wrap h2 span {
+  display: block;
+
+  margin-top: 9px;
+
+  background: linear-gradient(
+    90deg,
+    var(--v-blue) 0%,
+    var(--v-cyan) 48%,
+    var(--v-violet) 100%
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+}
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.cta-description {
+  max-width: 480px;
+}
+
+.cta-description > p {
+  margin: 0 0 30px;
+
+  color: var(--v-text);
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.85;
+}
+
+/* =========================================================
+   POINTS
+========================================================= */
+
+.cta-points {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cta-point {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  color: rgba(203, 213, 225, 0.78);
+
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.cta-point svg {
+  flex-shrink: 0;
+
+  color: var(--v-cyan);
+
+  filter: drop-shadow(
+    0 0 6px rgba(34, 211, 238, 0.25)
+  );
+}
+
+/* =========================================================
+   ACTION ROW
+========================================================= */
+
+.cta-action-row {
+  position: relative;
+  z-index: 4;
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  padding-top: 30px;
+
+  border-top: 1px solid var(--v-border);
+}
+
+.cta-primary-button,
+.cta-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+
+  min-height: 52px;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 250ms ease,
+    background 250ms ease,
+    box-shadow 250ms ease,
+    color 250ms ease;
+}
+
+/* =========================================================
+   PRIMARY BUTTON
+========================================================= */
+
+.cta-primary-button {
+  padding: 5px 6px 5px 22px;
+
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  border-radius: 100px;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      110deg,
+      rgba(59, 130, 246, 0.8),
+      rgba(139, 92, 246, 0.74)
+    );
+
+  box-shadow:
+    0 12px 35px rgba(59, 130, 246, 0.17),
+    0 0 25px rgba(139, 92, 246, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.cta-primary-button > span:first-child {
+  display: block;
+
+  width: auto;
+  height: auto;
+
+  background: transparent;
+}
+
+.cta-primary-icon {
+  display: grid;
+  place-items: center;
+
+  width: 40px;
+  height: 40px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  color: #ffffff;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  transition:
+    transform 250ms ease,
+    background 250ms ease;
+}
+
+.cta-primary-button:hover {
+  transform: translateY(-3px);
+
+  border-color: rgba(34, 211, 238, 0.68);
+
+  box-shadow:
+    0 18px 45px rgba(59, 130, 246, 0.25),
+    0 0 35px rgba(34, 211, 238, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.cta-primary-button:hover .cta-primary-icon {
+  transform: translateX(3px);
+
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.cta-primary-button:active {
+  transform: translateY(-1px);
+}
+
+.cta-primary-button:focus-visible,
+.cta-secondary-button:focus-visible,
+.cta-contact-card:focus-visible {
+  outline: 2px solid var(--v-cyan);
+  outline-offset: 4px;
+}
+
+/* =========================================================
+   SECONDARY BUTTON
+========================================================= */
+
+.cta-secondary-button {
+  padding: 0 21px;
+
+  border: 1px solid var(--v-border);
+  border-radius: 100px;
+
+  color: var(--v-text);
+
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.cta-secondary-button:hover {
+  transform: translateY(-3px);
+
+  color: #ffffff;
+
+  border-color: rgba(255, 255, 255, 0.2);
+
+  background: rgba(255, 255, 255, 0.05);
+
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.cta-secondary-button:active {
+  transform: translateY(-1px);
+}
+
+.cta-secondary-button svg {
+  color: var(--v-cyan);
+
+  transition: transform 250ms ease;
+}
+
+.cta-secondary-button:hover svg {
+  transform: translateX(3px);
+}
+
+/* =========================================================
+   CONTACT CARDS
+========================================================= */
+
+.cta-contact-grid {
+  position: relative;
+  z-index: 2;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 14px;
+
+  margin-top: 20px;
+}
+
+.cta-contact-card {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  min-height: 92px;
+
+  padding: 18px 20px;
+
+  border: 1px solid var(--v-border);
+  border-radius: 17px;
+
+  color: inherit;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.026),
+      rgba(255, 255, 255, 0.009)
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+
+  transition:
+    transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 250ms ease,
+    background 250ms ease,
+    box-shadow 250ms ease;
+}
+
+.cta-contact-card::before {
+  content: '';
+
+  position: absolute;
+
+  top: 0;
+  left: 18px;
+  right: 18px;
+
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(34, 211, 238, 0.2),
+    transparent
+  );
+
+  opacity: 0;
+
+  transition: opacity 250ms ease;
+}
+
+.cta-contact-card:hover {
+  transform: translateY(-5px);
+
+  border-color: rgba(34, 211, 238, 0.27);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(34, 211, 238, 0.045),
+      rgba(255, 255, 255, 0.012)
+    );
+
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.2),
+    0 0 25px rgba(34, 211, 238, 0.035),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.cta-contact-card:hover::before {
+  opacity: 1;
+}
+
+/* =========================================================
+   CONTACT ICON
+========================================================= */
+
+.cta-contact-icon {
+  display: grid;
+  place-items: center;
+
+  width: 43px;
+  height: 43px;
+
+  flex-shrink: 0;
+
+  border: 1px solid rgba(34, 211, 238, 0.15);
+  border-radius: 12px;
+
+  color: var(--v-cyan);
+
+  background:
+    radial-gradient(
+      circle at 30% 20%,
+      rgba(34, 211, 238, 0.08),
+      transparent 70%
+    ),
+    rgba(34, 211, 238, 0.025);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+
+  transition:
+    transform 250ms ease,
+    border-color 250ms ease,
+    background 250ms ease;
+}
+
+.cta-contact-card:hover .cta-contact-icon {
+  transform: scale(1.05);
+
+  border-color: rgba(34, 211, 238, 0.28);
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(34, 211, 238, 0.11),
+      rgba(34, 211, 238, 0.025)
+    );
+}
+
+/* =========================================================
+   CONTACT INFO
+========================================================= */
+
+.cta-contact-info {
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+
+  min-width: 0;
+}
+
+.cta-contact-info span {
+  color: var(--v-muted);
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 0.15em;
+  line-height: 1;
+
+  text-transform: uppercase;
+}
+
+.cta-contact-info strong {
+  display: block;
+
+  overflow: hidden;
+
+  color: var(--v-text);
+
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  transition: color 250ms ease;
+}
+
+.cta-contact-card:hover .cta-contact-info strong {
+  color: #ffffff;
+}
+
+/* =========================================================
+   CONTACT ARROW
+========================================================= */
+
+.cta-contact-arrow {
+  margin-left: auto;
+
+  flex-shrink: 0;
+
+  color: var(--v-muted);
+
+  transition:
+    transform 250ms ease,
+    color 250ms ease;
+}
+
+.cta-contact-card:hover .cta-contact-arrow {
+  color: var(--v-cyan);
+
+  transform: translate(3px, -3px);
+}
+
+/* =========================================================
+   BOTTOM DIVIDER
+========================================================= */
+
+.cta-bottom {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+
+  gap: 22px;
+
+  margin-top: 68px;
+}
+
+.cta-bottom-line {
+  flex: 1;
+
+  height: 1px;
+
+  background: var(--v-border);
+}
+
+.cta-bottom-center {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  color: rgba(255, 255, 255, 0.28);
+
+  font-size: 7px;
+  font-weight: 700;
+
+  letter-spacing: 0.17em;
+  line-height: 1;
+
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.cta-bottom-center i {
+  width: 3px;
+  height: 3px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: var(--v-cyan);
+
+  box-shadow:
+    0 0 7px rgba(34, 211, 238, 0.75);
+}
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width: 1400px) {
+  .cta-section {
+    padding-top: 175px;
+  }
+
+  .cta-main {
+    padding-left: 68px;
+    padding-right: 68px;
+  }
+
+  .cta-content {
+    gap: 110px;
+  }
+}
+
+/* =========================================================
+   TABLET / SMALL DESKTOP
+========================================================= */
+
+@media (max-width: 1100px) {
+  .cta-main {
+    padding: 42px 42px 50px;
+  }
+
+  .cta-content {
+    grid-template-columns: 1fr 0.9fr;
+    gap: 55px;
+
+    padding: 75px 0 60px;
+  }
+
+  .cta-heading-wrap h2 {
+    font-size: clamp(54px, 7vw, 82px);
+  }
+
+  .cta-sparkle {
+    right: 5%;
+  }
+
+  .cta-contact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cta-contact-card:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+  .cta-section {
+    padding: 120px 0 65px;
+  }
+
+  .cta-main {
+    padding: 38px 38px 46px;
+    border-radius: 28px;
+  }
+
+  .cta-content {
+    grid-template-columns: 1fr;
+
+    gap: 48px;
+
+    padding: 70px 0 55px;
+  }
+
+  .cta-description {
+    max-width: 680px;
+  }
+
+  .cta-heading-wrap h2 {
+    font-size: clamp(60px, 10vw, 92px);
+  }
+
+  .cta-sparkle {
+    top: -16px;
+    right: 10%;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+  .cta-section {
+    padding: 95px 0 52px;
+  }
+
+  .cta-grid-background {
+    background-size: 52px 52px;
+    opacity: 0.22;
+  }
+
+  .cta-orb-one {
+    width: 350px;
+    height: 350px;
+    filter: blur(80px);
+  }
+
+  .cta-orb-two {
+    width: 300px;
+    height: 300px;
+    right: -180px;
+  }
+
+  .cta-orb-three {
+    width: 280px;
+    height: 280px;
+    left: -190px;
+  }
+
+  .cta-main {
+    padding: 27px 21px 30px;
+
+    border-radius: 22px;
+  }
+
+  .cta-main::after {
+    width: 420px;
+    height: 420px;
+  }
+
+  .cta-top-line {
+    padding-bottom: 19px;
+  }
+
+  .cta-eyebrow {
+    gap: 7px;
+
+    font-size: 7px;
+    letter-spacing: 0.16em;
+  }
+
+  .cta-eyebrow-dot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .cta-index {
+    font-size: 7px;
+    letter-spacing: 0.12em;
+  }
+
+  .cta-content {
+    gap: 38px;
+
+    padding: 58px 0 45px;
+  }
+
+  .cta-heading-wrap h2 {
+    font-size: clamp(46px, 14vw, 70px);
+    line-height: 0.9;
+    letter-spacing: -0.065em;
+  }
+
+  .cta-heading-wrap h2 span {
+    margin-top: 6px;
+  }
+
+  .cta-sparkle {
+    top: -23px;
+    right: 0;
+
+    width: 37px;
+    height: 37px;
+  }
+
+  .cta-sparkle svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .cta-description {
+    max-width: 100%;
+  }
+
+  .cta-description > p {
+    margin-bottom: 25px;
+
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .cta-points {
+    gap: 12px;
+  }
+
+  .cta-point {
+    align-items: flex-start;
+
+    gap: 9px;
+
+    font-size: 10px;
+    line-height: 1.55;
+  }
+
+  .cta-point svg {
+    margin-top: 1px;
+  }
+
+  .cta-action-row {
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 10px;
+
+    padding-top: 24px;
+  }
+
+  .cta-primary-button,
+  .cta-secondary-button {
+    width: 100%;
+    min-height: 52px;
+  }
+
+  .cta-primary-button {
+    justify-content: space-between;
+  }
+
+  .cta-secondary-button {
+    padding: 0 18px;
+  }
+
+  .cta-contact-grid {
+    grid-template-columns: 1fr;
+
+    gap: 9px;
+
+    margin-top: 13px;
+  }
+
+  .cta-contact-card {
+    min-height: 76px;
+
+    padding: 13px 14px;
+
+    border-radius: 14px;
+  }
+
+  .cta-contact-icon {
+    width: 37px;
+    height: 37px;
+
+    border-radius: 10px;
+  }
+
+  .cta-contact-info {
+    gap: 4px;
+  }
+
+  .cta-contact-info span {
+    font-size: 7px;
+  }
+
+  .cta-contact-info strong {
+    font-size: 10px;
+  }
+
+  .cta-contact-arrow {
+    width: 15px;
+    height: 15px;
+  }
+
+  .cta-contact-card:last-child {
+    grid-column: auto;
+  }
+
+  .cta-bottom {
+    gap: 10px;
+
+    margin-top: 44px;
+  }
+
+  .cta-bottom-center {
+    flex-direction: column;
+
+    gap: 5px;
+
+    font-size: 6px;
+
+    text-align: center;
+  }
+
+  .cta-bottom-center i {
+    display: none;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  .cta-section {
+    padding: 82px 0 45px;
+  }
+
+  .cta-main {
+    padding: 24px 17px 26px;
+
+    border-radius: 19px;
+  }
+
+  .cta-top-line {
+    padding-bottom: 17px;
+  }
+
+  .cta-eyebrow {
+    font-size: 6.5px;
+  }
+
+  .cta-index {
+    font-size: 6px;
+  }
+
+  .cta-content {
+    gap: 34px;
+
+    padding: 52px 0 38px;
+  }
+
+  .cta-heading-wrap h2 {
+    font-size: clamp(43px, 15vw, 62px);
+  }
+
+  .cta-sparkle {
+    top: -18px;
+
+    width: 33px;
+    height: 33px;
+  }
+
+  .cta-sparkle svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .cta-description > p {
+    font-size: 11px;
+    line-height: 1.75;
+  }
+
+  .cta-point {
+    font-size: 9.5px;
+  }
+
+  .cta-primary-button,
+  .cta-secondary-button {
+    min-height: 49px;
+
+    font-size: 10px;
+  }
+
+  .cta-primary-button {
+    padding-left: 17px;
+  }
+
+  .cta-primary-icon {
+    width: 37px;
+    height: 37px;
+  }
+
+  .cta-contact-card {
+    min-height: 72px;
+  }
+
+  .cta-contact-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .cta-contact-info strong {
+    font-size: 9.5px;
+  }
+
+  .cta-bottom {
+    margin-top: 38px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL DEVICES
+========================================================= */
+
+@media (max-width: 360px) {
+  .cta-section {
+    padding-top: 70px;
+  }
+
+  .cta-main {
+    padding: 21px 14px 23px;
+  }
+
+  .cta-eyebrow {
+    letter-spacing: 0.11em;
+  }
+
+  .cta-index {
+    display: none;
+  }
+
+  .cta-content {
+    padding-top: 47px;
+  }
+
+  .cta-heading-wrap h2 {
+    font-size: 41px;
+  }
+
+  .cta-description > p {
+    font-size: 10.5px;
+  }
+
+  .cta-point {
+    font-size: 9px;
+  }
+
+  .cta-contact-info strong {
+    max-width: 180px;
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITY / REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-eyebrow-dot,
+  .cta-sparkle {
+    animation: none;
+  }
+
+  .cta-primary-button,
+  .cta-secondary-button,
+  .cta-contact-card,
+  .cta-contact-icon,
+  .cta-contact-arrow,
+  .cta-primary-icon,
+  .cta-secondary-button svg {
+    transition: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* =========================================================
+   TOUCH DEVICES
+========================================================= */
+
+@media (hover: none) {
+  .cta-primary-button:hover,
+  .cta-secondary-button:hover,
+  .cta-contact-card:hover {
+    transform: none;
+  }
+
+  .cta-primary-button:hover .cta-primary-icon,
+  .cta-secondary-button:hover svg,
+  .cta-contact-card:hover .cta-contact-icon,
+  .cta-contact-card:hover .cta-contact-arrow {
+    transform: none;
+  }
+}
