@@ -6,7 +6,7 @@ import vyntaraLogo from "../../assets/vyntara-logo.png";
 
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
-  'http://localhost:5000';
+  'https://vyntara-backend.onrender.com';
 
 const STORAGE_PREFIX = 'vyntara_popup_seen_';
 
