@@ -19,19 +19,19 @@ import './Navbar.css';
 const navigationItems = [
   {
     label: 'Home',
-    href: '#home'
+    href: '/'
   },
   {
     label: 'Services',
-    href: '#services'
+    href: '/#services'
   },
   {
     label: 'Solutions',
-    href: '#solutions'
+    href: '/#solutions'
   },
   {
     label: 'Projects',
-    href: '#projects'
+    href: '/#projects'
   },
   {
     label: 'Career',
@@ -39,6 +39,10 @@ const navigationItems = [
   }
 ];
 
+
+/* =========================================
+   NAVBAR
+========================================= */
 
 function Navbar() {
 
@@ -54,6 +58,158 @@ function Navbar() {
   };
 
 
+  /* =========================================
+     HANDLE NAVIGATION
+     
+     If already on home:
+       /#services → scroll normally
+
+     If on another page:
+       /#services → return to home and
+       browser will handle the hash.
+  ========================================== */
+
+  const handleNavigation = (event, href) => {
+
+    closeMenu();
+
+    /*
+      Home
+    */
+
+    if (href === '/') {
+
+      if (window.location.pathname === '/') {
+
+        event.preventDefault();
+
+        window.history.replaceState(
+          null,
+          '',
+          '/'
+        );
+
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+
+      }
+
+      return;
+    }
+
+
+    /*
+      Hash navigation
+      Example:
+      /#services
+      /#solutions
+      /#projects
+    */
+
+    if (href.startsWith('/#')) {
+
+      const sectionId = href.substring(2);
+
+      /*
+        If already on Home,
+        smooth scroll directly.
+      */
+
+      if (window.location.pathname === '/') {
+
+        event.preventDefault();
+
+        const section = document.getElementById(
+          sectionId
+        );
+
+        if (section) {
+
+          section.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+
+          /*
+            Keep URL clean and correct.
+          */
+
+          window.history.replaceState(
+            null,
+            '',
+            `/#${sectionId}`
+          );
+
+        }
+
+      }
+
+      /*
+        If on another page, don't prevent
+        default navigation.
+
+        Browser goes to:
+
+        /#services
+
+        React/Vite loads Home and browser
+        moves to the section.
+      */
+
+      return;
+    }
+
+  };
+
+
+  /* =========================================
+     START PROJECT
+  ========================================== */
+
+  const handleStartProject = (event) => {
+
+    closeMenu();
+
+    /*
+      If already on Home,
+      scroll directly to contact.
+    */
+
+    if (window.location.pathname === '/') {
+
+      event.preventDefault();
+
+      const contactSection =
+        document.getElementById('contact');
+
+      if (contactSection) {
+
+        contactSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+
+        window.history.replaceState(
+          null,
+          '',
+          '/#contact'
+        );
+
+      }
+
+      return;
+    }
+
+    /*
+      If on Careers or another page,
+      browser navigates to Home + contact.
+    */
+
+  };
+
+
   return (
 
     <header className="v-navbar">
@@ -66,9 +222,11 @@ function Navbar() {
         ========================================== */}
 
         <a
-          href="#home"
+          href="/"
           className="v-brand"
-          onClick={closeMenu}
+          onClick={(event) =>
+            handleNavigation(event, '/')
+          }
           aria-label="Vyntara Technologies home"
         >
 
@@ -107,8 +265,16 @@ function Navbar() {
               key={item.label}
               href={item.href}
               className="v-navbar__link"
+              onClick={(event) =>
+                handleNavigation(
+                  event,
+                  item.href
+                )
+              }
             >
+
               {item.label}
+
             </a>
 
           ))}
@@ -121,8 +287,9 @@ function Navbar() {
         ========================================== */}
 
         <a
-          href="#contact"
+          href="/#contact"
           className="v-navbar__cta"
+          onClick={handleStartProject}
         >
 
           <span>
@@ -198,9 +365,16 @@ function Navbar() {
               key={item.label}
               href={item.href}
               className="v-mobile-menu__link"
-              onClick={closeMenu}
+              onClick={(event) =>
+                handleNavigation(
+                  event,
+                  item.href
+                )
+              }
             >
+
               {item.label}
+
             </a>
 
           ))}
@@ -211,9 +385,9 @@ function Navbar() {
           ====================================== */}
 
           <a
-            href="#contact"
+            href="/#contact"
             className="v-mobile-menu__cta"
-            onClick={closeMenu}
+            onClick={handleStartProject}
           >
 
             <span>
