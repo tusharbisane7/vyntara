@@ -39,37 +39,83 @@ const PORT =
    CORS
 ========================================================= */
 
+/*
+ * Production frontend:
+ *
+ * https://vyntaratech.netlify.app
+ *
+ * Local development:
+ *
+ * http://localhost:5173
+ * http://127.0.0.1:5173
+ */
+
 const allowedOrigins = [
+  'https://vyntaratech.netlify.app',
   process.env.FRONTEND_URL,
   'http://localhost:5173',
   'http://127.0.0.1:5173'
 ].filter(Boolean);
 
 
+/*
+ * Remove duplicate origins.
+ */
+
+const uniqueAllowedOrigins = [
+  ...new Set(allowedOrigins)
+];
+
+
 app.use(
   cors({
+
+    /*
+     * Check request origin.
+     */
+
     origin: (origin, callback) => {
 
       /*
-       * Allow requests without Origin.
+       * Requests without an Origin header are allowed.
        *
        * Examples:
        * - Postman
        * - Server-to-server requests
-       * - Direct browser requests
+       * - Health checks
        */
 
       if (!origin) {
-        return callback(null, true);
-      }
 
-
-      if (allowedOrigins.includes(origin)) {
-
-        return callback(null, true);
+        return callback(
+          null,
+          true
+        );
 
       }
 
+
+      /*
+       * Allow approved origins.
+       */
+
+      if (
+        uniqueAllowedOrigins.includes(
+          origin
+        )
+      ) {
+
+        return callback(
+          null,
+          true
+        );
+
+      }
+
+
+      /*
+       * Reject unknown origins.
+       */
 
       console.warn(
         `Blocked by CORS: ${origin}`
@@ -77,12 +123,52 @@ app.use(
 
 
       return callback(
-        new Error('Not allowed by CORS')
+        new Error(
+          'Not allowed by CORS'
+        )
       );
 
     },
 
-    credentials: true
+
+    /*
+     * Allow cookies/authentication headers
+     * if required by the frontend.
+     */
+
+    credentials: true,
+
+
+    /*
+     * Allowed HTTP methods.
+     */
+
+    methods: [
+      'GET',
+      'POST',
+      'PUT',
+      'PATCH',
+      'DELETE',
+      'OPTIONS'
+    ],
+
+
+    /*
+     * Allowed request headers.
+     */
+
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization'
+    ],
+
+
+    /*
+     * Browser preflight cache.
+     */
+
+    optionsSuccessStatus: 204
+
   })
 );
 
@@ -108,17 +194,21 @@ app.use(
 
 /* =========================================================
    STATIC FILES / RESUMES
-=========================================================
-
-   Database stores:
-
-   /uploads/resumes/filename.pdf
-
-   Browser accesses:
-
-   http://localhost:5000/uploads/resumes/filename.pdf
-
 ========================================================= */
+
+/*
+ * Database stores:
+ *
+ * /uploads/resumes/filename.pdf
+ *
+ * Browser accesses:
+ *
+ * https://vyntara-backend.onrender.com/uploads/resumes/filename.pdf
+ *
+ * Local development:
+ *
+ * http://localhost:5000/uploads/resumes/filename.pdf
+ */
 
 const uploadsDirectory =
   path.resolve('uploads');
@@ -138,11 +228,11 @@ app.use(
 
 /* =========================================================
    HEALTH CHECK
-=========================================================
-
-   GET /api/health
-
 ========================================================= */
+
+/*
+ * GET /api/health
+ */
 
 app.get(
   '/api/health',
@@ -192,11 +282,11 @@ app.get(
 
 /* =========================================================
    ROOT
-=========================================================
-
-   GET /
-
 ========================================================= */
+
+/*
+ * GET /
+ */
 
 app.get(
   '/',
@@ -217,13 +307,13 @@ app.get(
 
 /* =========================================================
    ADMIN AUTH / DASHBOARD
-=========================================================
-
-   Mounted at:
-
-   /api/admin
-
 ========================================================= */
+
+/*
+ * Mounted at:
+ *
+ * /api/admin
+ */
 
 app.use(
   '/api/admin',
@@ -233,13 +323,13 @@ app.use(
 
 /* =========================================================
    PROJECT ENQUIRIES
-=========================================================
-
-   Public/project routes:
-
-   /api/projects
-
 ========================================================= */
+
+/*
+ * Public/project routes:
+ *
+ * /api/projects
+ */
 
 app.use(
   '/api/projects',
@@ -249,15 +339,15 @@ app.use(
 
 /* =========================================================
    PUBLIC JOBS
-=========================================================
-
-   GET
-   /api/jobs
-
-   GET
-   /api/jobs/:id
-
 ========================================================= */
+
+/*
+ * GET
+ * /api/jobs
+ *
+ * GET
+ * /api/jobs/:id
+ */
 
 app.use(
   '/api/jobs',
@@ -267,24 +357,24 @@ app.use(
 
 /* =========================================================
    ADMIN JOBS
-=========================================================
-
-   GET
-   /api/admin/jobs
-
-   POST
-   /api/admin/jobs
-
-   PUT
-   /api/admin/jobs/:id
-
-   PATCH
-   /api/admin/jobs/:id/status
-
-   DELETE
-   /api/admin/jobs/:id
-
 ========================================================= */
+
+/*
+ * GET
+ * /api/admin/jobs
+ *
+ * POST
+ * /api/admin/jobs
+ *
+ * PUT
+ * /api/admin/jobs/:id
+ *
+ * PATCH
+ * /api/admin/jobs/:id/status
+ *
+ * DELETE
+ * /api/admin/jobs/:id
+ */
 
 app.use(
   '/api/admin/jobs',
@@ -294,30 +384,30 @@ app.use(
 
 /* =========================================================
    JOB APPLICATIONS
-=========================================================
-
-   applications.js contains:
-
-   POST
-   /jobs/:id/applications
-
-   GET
-   /admin/applications
-
-   GET
-   /admin/applications/:id
-
-   PATCH
-   /admin/applications/:id/status
-
-   DELETE
-   /admin/applications/:id
-
-   Therefore mount at:
-
-   /api
-
 ========================================================= */
+
+/*
+ * applications.js contains:
+ *
+ * POST
+ * /jobs/:id/applications
+ *
+ * GET
+ * /admin/applications
+ *
+ * GET
+ * /admin/applications/:id
+ *
+ * PATCH
+ * /admin/applications/:id/status
+ *
+ * DELETE
+ * /admin/applications/:id
+ *
+ * Therefore mount at:
+ *
+ * /api
+ */
 
 app.use(
   '/api',
@@ -327,12 +417,12 @@ app.use(
 
 /* =========================================================
    PUBLIC TESTIMONIALS
-=========================================================
-
-   GET
-   /api/testimonials
-
 ========================================================= */
+
+/*
+ * GET
+ * /api/testimonials
+ */
 
 app.use(
   '/api/testimonials',
@@ -342,13 +432,13 @@ app.use(
 
 /* =========================================================
    ADMIN TESTIMONIALS
-=========================================================
-
-   Admin testimonial routes:
-
-   /api/admin/testimonials
-
 ========================================================= */
+
+/*
+ * Admin testimonial routes:
+ *
+ * /api/admin/testimonials
+ */
 
 app.use(
   '/api/admin/testimonials',
@@ -358,32 +448,32 @@ app.use(
 
 /* =========================================================
    WEBSITE POPUP
-=========================================================
-
-   PUBLIC
-
-   GET
-   /api/popup
-
-
-   ADMIN
-
-   GET
-   /api/admin/popup
-
-   POST
-   /api/admin/popup
-
-   PUT
-   /api/admin/popup/:id
-
-   PATCH
-   /api/admin/popup/:id/status
-
-   DELETE
-   /api/admin/popup/:id
-
 ========================================================= */
+
+/*
+ * PUBLIC
+ *
+ * GET
+ * /api/popup
+ *
+ *
+ * ADMIN
+ *
+ * GET
+ * /api/admin/popup
+ *
+ * POST
+ * /api/admin/popup
+ *
+ * PUT
+ * /api/admin/popup/:id
+ *
+ * PATCH
+ * /api/admin/popup/:id/status
+ *
+ * DELETE
+ * /api/admin/popup/:id
+ */
 
 
 /* ---------------------------------------------------------
@@ -550,27 +640,41 @@ app.listen(
     );
 
     console.log(
-      `Server: http://localhost:${PORT}`
+      `Server running on port ${PORT}`
     );
 
     console.log(
-      `Health: http://localhost:${PORT}/api/health`
+      `Health endpoint: /api/health`
     );
 
     console.log(
-      `Uploads: http://localhost:${PORT}/uploads`
+      `Uploads endpoint: /uploads`
     );
 
     console.log(
-      `Public Popup: http://localhost:${PORT}/api/popup`
+      `Public Popup: /api/popup`
     );
 
     console.log(
-      `Admin Popup: http://localhost:${PORT}/api/admin/popup`
+      `Admin Popup: /api/admin/popup`
     );
 
     console.log(
       '========================================'
+    );
+
+    console.log('');
+
+    console.log(
+      'Allowed CORS origins:'
+    );
+
+    uniqueAllowedOrigins.forEach(
+      (origin) => {
+        console.log(
+          ` - ${origin}`
+        );
+      }
     );
 
     console.log('');
