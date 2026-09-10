@@ -1,211 +1,729 @@
 import { motion } from 'motion/react';
+
 import {
   ArrowUpRight,
   ExternalLink,
-  Globe2,
-  Smartphone,
-  BrainCircuit,
-  ShoppingBag,
-  BarChart3,
-  Sparkles
+  HeartHandshake,
+  Sparkles,
+  Layers3,
+  Code2,
+  ShieldCheck,
+  UsersRound,
+  ClipboardList,
+  GraduationCap
 } from 'lucide-react';
 
 import './Portfolio.css';
 
+
+/* =========================================================
+   PROJECT DATA
+
+   Add your real image paths / live URLs here.
+
+   Example:
+
+   image: '/projects/erp-dashboard.png'
+
+   OR, if images are inside src/assets:
+
+   import erpDashboard from '../../assets/projects/erp-dashboard.png';
+   image: erpDashboard;
+
+   For a real live project:
+
+   liveUrl: 'https://your-project-url.com'
+========================================================= */
+
 const projects = [
+
+  /* =======================================================
+     PROJECT 01
+     EDUCATIONAL INSTITUTION ERP
+  ======================================================= */
+
   {
     id: '01',
+
     category: 'EDUCATION TECHNOLOGY',
-    title: 'Engineering College Digital Platform',
+
+    title: 'Educational Institution ERP',
+
     description:
-      'A complete digital ecosystem for an engineering institution featuring admissions, departments, notices, events, faculty information and student-focused services.',
-    tags: ['React', 'Node.js', 'MongoDB'],
-    icon: Globe2,
+      'A complete digital management platform designed to bring educational institution operations, administration and student services together in one centralized ecosystem.',
+
+    tags: [
+      'ERP',
+      'Education',
+      'Management',
+      'Live Project'
+    ],
+
+    technologies: [
+      'React',
+      'Node.js',
+      'PostgreSQL'
+    ],
+
+    features: [
+      'Institution Management',
+      'Student Management',
+      'Faculty & Staff Management',
+      'Attendance Management',
+      'Fees & Finance',
+      'Examination & Results',
+      'Reports & Analytics',
+      'Role-Based Administration'
+    ],
+
+    icon: GraduationCap,
+
     type: 'featured',
+
+    status: 'LIVE PROJECT',
+
+    image: '',
+
+    /*
+      Add the real ERP URL here when available.
+
+      Example:
+      liveUrl: 'https://erp.example.com'
+    */
+    liveUrl: '',
+
     metric: '360°',
-    metricLabel: 'Digital Experience'
+
+    metricLabel: 'Institution Management',
+
+    ctaText: 'View Project',
+
+    ctaType: 'link'
   },
+
+
+  /* =======================================================
+     PROJECT 02
+     CARESYNC
+  ======================================================= */
+
   {
     id: '02',
-    category: 'BUSINESS SOFTWARE',
-    title: 'Smart Expense Management',
+
+    category: 'SERVICE TECHNOLOGY',
+
+    title: 'CareSync',
+
     description:
-      'A modern expense management platform designed to simplify tracking, reporting and financial visibility.',
-    tags: ['React', 'Analytics', 'PDF'],
-    icon: BarChart3,
-    metric: '80%',
-    metricLabel: 'Faster Reporting'
-  },
-  {
-    id: '03',
-    category: 'AI SOLUTIONS',
-    title: 'Intelligent Automation Platform',
-    description:
-      'AI-powered workflows designed to reduce repetitive tasks and help teams work more efficiently.',
-    tags: ['AI', 'Automation', 'APIs'],
-    icon: BrainCircuit,
-    metric: '24/7',
-    metricLabel: 'Automation'
-  },
-  {
-    id: '04',
-    category: 'E-COMMERCE',
-    title: 'Modern Commerce Experience',
-    description:
-      'A conversion-focused online shopping experience with product discovery, responsive design and streamlined checkout.',
-    tags: ['React', 'E-Commerce', 'Payments'],
-    icon: ShoppingBag,
-    metric: '3×',
-    metricLabel: 'Better UX'
-  },
-  {
-    id: '05',
-    category: 'MOBILE TECHNOLOGY',
-    title: 'Connected Mobile Application',
-    description:
-      'A scalable mobile experience connecting customers, services and real-time business data.',
-    tags: ['Mobile', 'API', 'Cloud'],
-    icon: Smartphone,
-    metric: '99.9%',
-    metricLabel: 'Availability'
+      'A modern service management platform designed to connect users with services through a streamlined request, enquiry and management experience.',
+
+    tags: [
+      'Service Management',
+      'Request Platform',
+      'CRM',
+      'Live Project'
+    ],
+
+    technologies: [
+      'React',
+      'Node.js',
+      'Database'
+    ],
+
+    features: [
+      'Service Requests',
+      'Customer Information',
+      'Request Tracking',
+      'Service Status',
+      'Enquiry Management',
+      'Administrative Management'
+    ],
+
+    icon: HeartHandshake,
+
+    type: 'standard',
+
+    status: 'LIVE PROJECT',
+
+    image: '',
+
+    /*
+      Add the real CareSync URL here if you want
+      the card to open the live project.
+
+      Example:
+      liveUrl: 'https://caresync.example.com'
+    */
+    liveUrl: '',
+
+    metric: 'LIVE',
+
+    metricLabel: 'Service Platform',
+
+    ctaText: 'Request Service',
+
+    ctaType: 'request'
   }
+
 ];
 
-function ProjectVisual({ project, featured = false }) {
+
+/* =========================================================
+   OPEN EXISTING PROJECT FORM
+
+   IMPORTANT:
+
+   Your existing ProjectForm.jsx listens for:
+
+   window.addEventListener(
+     'openProjectForm',
+     ...
+   );
+
+   Therefore Portfolio MUST dispatch:
+
+   new CustomEvent('openProjectForm')
+
+   Do NOT change ProjectForm.jsx.
+========================================================= */
+
+function openProjectForm(projectName = '') {
+
+  window.dispatchEvent(
+
+    new CustomEvent(
+      'openProjectForm',
+      {
+        detail: {
+          project: projectName
+        }
+      }
+    )
+
+  );
+
+}
+
+
+/* =========================================================
+   PROJECT VISUAL
+========================================================= */
+
+function ProjectVisual({
+  project,
+  featured = false
+}) {
+
   const Icon = project.icon;
 
   return (
+
     <div
       className={`v-project-visual ${
-        featured ? 'v-project-visual--featured' : ''
+        featured
+          ? 'v-project-visual--featured'
+          : ''
       }`}
     >
+
       <div className="v-project-visual__grid" />
 
       <div className="v-project-visual__glow" />
 
-      {/* Browser / Application frame */}
 
-      <div className="v-project-screen">
+      {/* ===================================================
+          REAL PROJECT IMAGE
+      =================================================== */}
 
-        <div className="v-project-screen__top">
+      {project.image ? (
 
-          <div className="v-project-screen__dots">
-            <span />
-            <span />
-            <span />
+        <div className="v-project-image">
+
+          <img
+            src={project.image}
+            alt={`${project.title} project`}
+            loading="lazy"
+          />
+
+        </div>
+
+      ) : (
+
+        /* =================================================
+           FALLBACK APPLICATION PREVIEW
+
+           This remains visible until you add the
+           real project screenshot.
+        ================================================= */
+
+        <div className="v-project-screen">
+
+          <div className="v-project-screen__top">
+
+            <div className="v-project-screen__dots">
+
+              <span />
+              <span />
+              <span />
+
+            </div>
+
+
+            <div className="v-project-screen__address">
+
+              <span>
+                ●
+              </span>
+
+              project.vyntara
+
+            </div>
+
+
+            <div className="v-project-screen__menu">
+
+              •••
+
+            </div>
+
           </div>
 
-          <div className="v-project-screen__address">
-            <span>●</span>
-            project.vyntara
-          </div>
 
-          <div className="v-project-screen__menu">
-            •••
+          <div className="v-project-screen__body">
+
+
+            {/* SIDEBAR */}
+
+            <div className="v-project-screen__sidebar">
+
+              <div className="v-project-screen__logo">
+                V
+              </div>
+
+              <span className="active" />
+
+              <span />
+
+              <span />
+
+              <span />
+
+              <span />
+
+            </div>
+
+
+            {/* CONTENT */}
+
+            <div className="v-project-screen__content">
+
+
+              <div className="v-project-screen__heading">
+
+                <div>
+
+                  <small>
+                    PROJECT OVERVIEW
+                  </small>
+
+                  <strong>
+                    {project.title}
+                  </strong>
+
+                </div>
+
+
+                <div className="v-project-screen__avatar" />
+
+              </div>
+
+
+              <div className="v-project-screen__cards">
+
+
+                <div>
+
+                  <small>
+                    STATUS
+                  </small>
+
+                  <strong>
+                    LIVE
+                  </strong>
+
+                  <span>
+                    Production
+                  </span>
+
+                </div>
+
+
+                <div>
+
+                  <small>
+                    FEATURES
+                  </small>
+
+                  <strong>
+                    {project.features.length}
+                  </strong>
+
+                  <span>
+                    Core Modules
+                  </span>
+
+                </div>
+
+
+                <div>
+
+                  <small>
+                    TECHNOLOGY
+                  </small>
+
+                  <strong>
+                    {project.technologies.length}
+                  </strong>
+
+                  <span>
+                    Technologies
+                  </span>
+
+                </div>
+
+
+              </div>
+
+
+              <div className="v-project-screen__graph">
+
+
+                <div className="v-project-screen__graph-header">
+
+                  <span>
+                    {project.title}
+                  </span>
+
+                  <small>
+                    LIVE
+                  </small>
+
+                </div>
+
+
+                <div className="v-project-screen__bars">
+
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+
+                </div>
+
+
+              </div>
+
+
+            </div>
+
           </div>
 
         </div>
 
-        <div className="v-project-screen__body">
+      )}
 
-          <div className="v-project-screen__sidebar">
 
-            <div className="v-project-screen__logo">
-              V
-            </div>
-
-            <span className="active" />
-            <span />
-            <span />
-            <span />
-            <span />
-
-          </div>
-
-          <div className="v-project-screen__content">
-
-            <div className="v-project-screen__heading">
-              <div>
-                <small>Dashboard</small>
-                <strong>
-                  {project.title}
-                </strong>
-              </div>
-
-              <div className="v-project-screen__avatar" />
-            </div>
-
-            <div className="v-project-screen__cards">
-
-              <div>
-                <small>Performance</small>
-                <strong>{project.metric}</strong>
-                <span>{project.metricLabel}</span>
-              </div>
-
-              <div>
-                <small>Projects</small>
-                <strong>24</strong>
-                <span>Active</span>
-              </div>
-
-              <div>
-                <small>Growth</small>
-                <strong>+32%</strong>
-                <span>This month</span>
-              </div>
-
-            </div>
-
-            <div className="v-project-screen__graph">
-
-              <div className="v-project-screen__graph-header">
-                <span>Activity Overview</span>
-                <small>2026</small>
-              </div>
-
-              <div className="v-project-screen__bars">
-                <i />
-                <i />
-                <i />
-                <i />
-                <i />
-                <i />
-                <i />
-                <i />
-                <i />
-                <i />
-                <i />
-                <i />
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
+      {/* ===================================================
+          PROJECT ICON
+      =================================================== */}
 
       <div className="v-project-icon">
+
         <Icon size={19} />
+
       </div>
+
+
+      {/* ===================================================
+          LIVE STATUS
+      =================================================== */}
 
       <div className="v-project-status">
+
         <span />
-        LIVE PROJECT
+
+        {project.status}
+
       </div>
 
+
     </div>
+
   );
+
 }
 
-function Portfolio() {
-  const featuredProject = projects[0];
-  const remainingProjects = projects.slice(1);
+
+/* =========================================================
+   FEATURE LIST
+========================================================= */
+
+function FeaturePreview({
+  project
+}) {
+
+  const featureIcons = [
+    Layers3,
+    UsersRound,
+    ClipboardList,
+    ShieldCheck
+  ];
+
 
   return (
+
+    <div className="v-project-features">
+
+      {project.features
+        .slice(0, 4)
+        .map((feature, index) => {
+
+          const FeatureIcon =
+            featureIcons[index] ||
+            Code2;
+
+          return (
+
+            <div
+              className="v-project-feature"
+              key={feature}
+            >
+
+              <FeatureIcon size={14} />
+
+              <span>
+                {feature}
+              </span>
+
+            </div>
+
+          );
+
+        })}
+
+    </div>
+
+  );
+
+}
+
+
+/* =========================================================
+   PROJECT ACTION
+========================================================= */
+
+function ProjectAction({
+  project,
+  featured = false
+}) {
+
+  /* =======================================================
+     REQUEST SERVICE
+
+     Opens the EXISTING ProjectForm.jsx.
+
+     ProjectForm.jsx listens for:
+
+     'openProjectForm'
+
+     We are NOT changing ProjectForm.jsx.
+  ======================================================= */
+
+  if (project.ctaType === 'request') {
+
+    return (
+
+      <button
+        type="button"
+
+        className={
+          featured
+            ? 'v-project-view v-project-request'
+            : 'v-project-card__arrow v-project-request'
+        }
+
+        onClick={() => {
+          openProjectForm(project.title);
+        }}
+
+        aria-label={`Request service for ${project.title}`}
+      >
+
+        {featured ? (
+
+          <>
+            <span>
+              {project.ctaText}
+            </span>
+
+            <ArrowUpRight
+              size={17}
+            />
+          </>
+
+        ) : (
+
+          <ArrowUpRight
+            size={17}
+          />
+
+        )}
+
+      </button>
+
+    );
+
+  }
+
+
+  /* =======================================================
+     LIVE PROJECT LINK
+
+     If a real liveUrl exists, open it in a new tab.
+  ======================================================= */
+
+  if (project.liveUrl) {
+
+    return (
+
+      <a
+        href={project.liveUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+
+        className={
+          featured
+            ? 'v-project-view'
+            : 'v-project-card__arrow'
+        }
+
+        aria-label={`View ${project.title}`}
+      >
+
+        {featured ? (
+
+          <>
+            <span>
+              {project.ctaText}
+            </span>
+
+            <ArrowUpRight
+              size={17}
+            />
+          </>
+
+        ) : (
+
+          <ArrowUpRight
+            size={17}
+          />
+
+        )}
+
+      </a>
+
+    );
+
+  }
+
+
+  /* =======================================================
+     NO LIVE URL
+
+     Instead of doing nothing, use the existing
+     ProjectForm so the visitor can enquire about
+     the project.
+
+     This is especially useful for the ERP project
+     until its actual live URL is added.
+  ======================================================= */
+
+  return (
+
+    <button
+      type="button"
+
+      className={
+        featured
+          ? 'v-project-view'
+          : 'v-project-card__arrow'
+      }
+
+      onClick={() => {
+        openProjectForm(project.title);
+      }}
+
+      aria-label={`Enquire about ${project.title}`}
+    >
+
+      {featured ? (
+
+        <>
+          <span>
+            {project.ctaText}
+          </span>
+
+          <ArrowUpRight
+            size={17}
+          />
+        </>
+
+      ) : (
+
+        <ArrowUpRight
+          size={17}
+        />
+
+      )}
+
+    </button>
+
+  );
+
+}
+
+
+/* =========================================================
+   PORTFOLIO
+========================================================= */
+
+function Portfolio() {
+
+  const featuredProject =
+    projects.find(
+      (project) =>
+        project.type === 'featured'
+    ) || projects[0];
+
+
+  const remainingProjects =
+    projects.filter(
+      (project) =>
+        project.id !==
+        featuredProject.id
+    );
+
+
+  return (
+
     <section
       className="v-portfolio"
       id="projects"
@@ -213,11 +731,16 @@ function Portfolio() {
 
       <div className="v-portfolio__ambient" />
 
+
       <div className="v-container">
 
-        {/* Header */}
+
+        {/* =================================================
+            HEADER
+        ================================================= */}
 
         <motion.div
+
           className="v-portfolio__header"
 
           initial={{
@@ -238,33 +761,59 @@ function Portfolio() {
           transition={{
             duration: 0.7
           }}
+
         >
 
+
           <div className="v-portfolio__label">
-            <Sparkles size={14} />
-            <span>SELECTED WORK</span>
+
+            <Sparkles
+              size={14}
+            />
+
+            <span>
+              SELECTED WORK
+            </span>
+
           </div>
+
 
           <div className="v-portfolio__heading-row">
 
+
             <h2>
-              Ideas we've
-              <span> brought to life.</span>
+
+              Real products.
+              <span>
+                Real solutions.
+              </span>
+
             </h2>
 
+
             <p>
-              Every project starts with a challenge. We combine
-              strategy, design and engineering to turn that
-              challenge into a digital experience that works.
+
+              We design and engineer digital
+              products that solve real business
+              and institutional challenges — from
+              complete ERP platforms to modern
+              service management systems.
+
             </p>
+
 
           </div>
 
+
         </motion.div>
 
-        {/* Featured Project */}
+
+        {/* =================================================
+            FEATURED PROJECT
+        ================================================= */}
 
         <motion.article
+
           className="v-project-featured"
 
           initial={{
@@ -285,16 +834,30 @@ function Portfolio() {
           transition={{
             duration: 0.7
           }}
+
         >
 
+
           <ProjectVisual
-            project={featuredProject}
+            project={
+              featuredProject
+            }
             featured
           />
 
-          <div className="v-project-featured__content">
 
-            <div className="v-project-featured__meta">
+          <div
+            className=
+              "v-project-featured__content"
+          >
+
+
+            {/* META */}
+
+            <div
+              className=
+                "v-project-featured__meta"
+            >
 
               <span>
                 {featuredProject.category}
@@ -306,27 +869,76 @@ function Portfolio() {
 
             </div>
 
+
+            {/* TITLE */}
+
             <h3>
               {featuredProject.title}
             </h3>
+
+
+            {/* DESCRIPTION */}
 
             <p>
               {featuredProject.description}
             </p>
 
+
+            {/* TAGS */}
+
             <div className="v-project-tags">
 
-              {featuredProject.tags.map((tag) => (
-                <span key={tag}>
-                  {tag}
-                </span>
-              ))}
+              {featuredProject.tags.map(
+                (tag) => (
+
+                  <span key={tag}>
+                    {tag}
+                  </span>
+
+                )
+              )}
 
             </div>
 
-            <div className="v-project-featured__bottom">
 
-              <div className="v-project-result">
+            {/* FEATURES */}
+
+            <FeaturePreview
+              project={
+                featuredProject
+              }
+            />
+
+
+            {/* TECHNOLOGIES */}
+
+            <div className="v-project-technologies">
+
+              {featuredProject.technologies.map(
+                (technology) => (
+
+                  <span key={technology}>
+                    {technology}
+                  </span>
+
+                )
+              )}
+
+            </div>
+
+
+            {/* BOTTOM */}
+
+            <div
+              className=
+                "v-project-featured__bottom"
+            >
+
+
+              <div
+                className=
+                  "v-project-result"
+              >
 
                 <strong>
                   {featuredProject.metric}
@@ -338,106 +950,190 @@ function Portfolio() {
 
               </div>
 
-              <a
-                href="#contact"
-                className="v-project-view"
-              >
-                <span>View Case Study</span>
-                <ArrowUpRight size={17} />
-              </a>
+
+              <ProjectAction
+                project={
+                  featuredProject
+                }
+                featured
+              />
+
 
             </div>
 
+
           </div>
+
 
         </motion.article>
 
-        {/* Other Projects */}
+
+        {/* =================================================
+            OTHER PROJECTS
+        ================================================= */}
 
         <div className="v-projects-grid">
 
-          {remainingProjects.map((project, index) => (
-            <motion.article
-              key={project.id}
-              className="v-project-card"
 
-              initial={{
-                opacity: 0,
-                y: 35
-              }}
+          {remainingProjects.map(
+            (project, index) => (
 
-              whileInView={{
-                opacity: 1,
-                y: 0
-              }}
+              <motion.article
 
-              viewport={{
-                once: true,
-                amount: 0.12
-              }}
+                key={project.id}
 
-              transition={{
-                duration: 0.6,
-                delay: index * 0.08
-              }}
-            >
+                className=
+                  "v-project-card"
 
-              <ProjectVisual project={project} />
+                initial={{
+                  opacity: 0,
+                  y: 35
+                }}
 
-              <div className="v-project-card__content">
+                whileInView={{
+                  opacity: 1,
+                  y: 0
+                }}
 
-                <div className="v-project-card__meta">
+                viewport={{
+                  once: true,
+                  amount: 0.12
+                }}
 
-                  <span>
-                    {project.category}
-                  </span>
+                transition={{
+                  duration: 0.6,
+                  delay:
+                    index * 0.08
+                }}
 
-                  <span>
-                    {project.id}
-                  </span>
+              >
 
-                </div>
 
-                <h3>
-                  {project.title}
-                </h3>
+                <ProjectVisual
+                  project={project}
+                />
 
-                <p>
-                  {project.description}
-                </p>
 
-                <div className="v-project-card__footer">
+                <div
+                  className=
+                    "v-project-card__content"
+                >
 
-                  <div className="v-project-tags">
 
-                    {project.tags.map((tag) => (
-                      <span key={tag}>
-                        {tag}
-                      </span>
-                    ))}
+                  {/* META */}
+
+                  <div
+                    className=
+                      "v-project-card__meta"
+                  >
+
+                    <span>
+                      {project.category}
+                    </span>
+
+                    <span>
+                      {project.id}
+                    </span>
 
                   </div>
 
-                  <a
-                    href="#contact"
-                    className="v-project-card__arrow"
-                    aria-label={`View ${project.title}`}
+
+                  {/* TITLE */}
+
+                  <h3>
+                    {project.title}
+                  </h3>
+
+
+                  {/* DESCRIPTION */}
+
+                  <p>
+                    {project.description}
+                  </p>
+
+
+                  {/* TAGS */}
+
+                  <div className="v-project-tags">
+
+                    {project.tags.map(
+                      (tag) => (
+
+                        <span key={tag}>
+                          {tag}
+                        </span>
+
+                      )
+                    )}
+
+                  </div>
+
+
+                  {/* FEATURES */}
+
+                  <FeaturePreview
+                    project={project}
+                  />
+
+
+                  {/* FOOTER */}
+
+                  <div
+                    className=
+                      "v-project-card__footer"
                   >
-                    <ArrowUpRight size={17} />
-                  </a>
+
+
+                    <div
+                      className=
+                        "v-project-technologies"
+                    >
+
+                      {project.technologies
+                        .slice(0, 3)
+                        .map(
+                          (technology) => (
+
+                            <span
+                              key={
+                                technology
+                              }
+                            >
+                              {technology}
+                            </span>
+
+                          )
+                        )}
+
+                    </div>
+
+
+                    <ProjectAction
+                      project={project}
+                    />
+
+
+                  </div>
+
 
                 </div>
 
-              </div>
 
-            </motion.article>
-          ))}
+              </motion.article>
+
+            )
+          )}
+
 
         </div>
 
-        {/* Portfolio CTA */}
+
+        {/* =================================================
+            PORTFOLIO CTA
+        ================================================= */}
 
         <motion.div
+
           className="v-portfolio__cta"
 
           initial={{
@@ -455,34 +1151,61 @@ function Portfolio() {
           transition={{
             duration: 0.7
           }}
+
         >
 
-          <div className="v-portfolio__cta-text">
+
+          <div
+            className=
+              "v-portfolio__cta-text"
+          >
 
             <span>
               HAVE A PROJECT IN MIND?
             </span>
 
             <strong>
-              Let's turn your idea into something real.
+              Let's turn your idea
+              into something real.
             </strong>
 
           </div>
 
-          <a
-            href="#contact"
-            className="v-portfolio__cta-button"
+
+          <button
+
+            type="button"
+
+            className=
+              "v-portfolio__cta-button"
+
+            onClick={() => {
+              openProjectForm();
+            }}
+
           >
-            <span>Start a Conversation</span>
-            <ExternalLink size={16} />
-          </a>
+
+            <span>
+              Start a Conversation
+            </span>
+
+            <ExternalLink
+              size={16}
+            />
+
+          </button>
+
 
         </motion.div>
+
 
       </div>
 
     </section>
+
   );
+
 }
+
 
 export default Portfolio;

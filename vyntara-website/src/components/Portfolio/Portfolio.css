@@ -36,9 +36,10 @@
   pointer-events: none;
 }
 
-/* =========================================
+
+/* =========================================================
    HEADER
-========================================= */
+========================================================= */
 
 .v-portfolio__header {
   position: relative;
@@ -91,6 +92,8 @@
 }
 
 .v-portfolio__heading-row h2 span {
+  display: inline;
+
   background:
     linear-gradient(
       90deg,
@@ -115,9 +118,10 @@
   line-height: 1.8;
 }
 
-/* =========================================
+
+/* =========================================================
    FEATURED PROJECT
-========================================= */
+========================================================= */
 
 .v-project-featured {
   position: relative;
@@ -130,7 +134,7 @@
     minmax(400px, 1.05fr)
     minmax(0, 0.95fr);
 
-  min-height: 510px;
+  min-height: 560px;
 
   overflow: hidden;
 
@@ -161,9 +165,10 @@
     0 30px 90px rgba(0, 0, 0, 0.25);
 }
 
-/* =========================================
+
+/* =========================================================
    PROJECT VISUAL
-========================================= */
+========================================================= */
 
 .v-project-visual {
   position: relative;
@@ -176,7 +181,8 @@
 
   overflow: hidden;
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.06);
 
   background:
     radial-gradient(
@@ -187,12 +193,18 @@
 }
 
 .v-project-visual--featured {
-  min-height: 510px;
+  min-height: 560px;
 
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  border-right:
+    1px solid rgba(255, 255, 255, 0.06);
 
   border-bottom: 0;
 }
+
+
+/* =========================================================
+   BACKGROUND GRID
+========================================================= */
 
 .v-project-visual__grid {
   position: absolute;
@@ -229,6 +241,11 @@
     );
 }
 
+
+/* =========================================================
+   VISUAL GLOW
+========================================================= */
+
 .v-project-visual__glow {
   position: absolute;
 
@@ -251,20 +268,104 @@
     5s
     ease-in-out
     infinite;
+
+  pointer-events: none;
 }
 
-/* =========================================
-   SCREEN
-========================================= */
+
+/* =========================================================
+   REAL PROJECT IMAGE
+========================================================= */
+
+.v-project-image {
+  position: relative;
+
+  z-index: 2;
+
+  width: 82%;
+
+  max-height: 420px;
+
+  overflow: hidden;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.12);
+
+  border-radius: 16px;
+
+  background: #070b13;
+
+  box-shadow:
+    0 35px 80px rgba(0, 0, 0, 0.5);
+
+  transform:
+    perspective(1200px)
+    rotateY(-4deg)
+    rotateX(2deg);
+
+  transition:
+    transform 500ms
+      cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 500ms ease;
+}
+
+.v-project-visual:hover
+.v-project-image {
+  transform:
+    perspective(1200px)
+    rotateY(0)
+    rotateX(0)
+    translateY(-6px);
+
+  box-shadow:
+    0 40px 90px rgba(0, 0, 0, 0.6);
+}
+
+.v-project-image::after {
+  content: '';
+
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(34, 211, 238, 0.08),
+      transparent 35%,
+      rgba(139, 92, 246, 0.08)
+    );
+}
+
+.v-project-image img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  max-height: 420px;
+
+  object-fit: cover;
+}
+
+
+/* =========================================================
+   SCREEN FALLBACK
+========================================================= */
 
 .v-project-screen {
   position: relative;
+
+  z-index: 2;
 
   width: 78%;
 
   overflow: hidden;
 
-  border: 1px solid rgba(255, 255, 255, 0.11);
+  border:
+    1px solid rgba(255, 255, 255, 0.11);
 
   border-radius: 15px;
 
@@ -279,7 +380,8 @@
     rotateX(2deg);
 
   transition:
-    transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform 500ms
+      cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .v-project-featured:hover
@@ -291,6 +393,11 @@
     translateY(-5px);
 }
 
+
+/* =========================================================
+   SCREEN TOP
+========================================================= */
+
 .v-project-screen__top {
   height: 32px;
 
@@ -299,9 +406,11 @@
 
   padding: 0 10px;
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.06);
 
-  background: rgba(255, 255, 255, 0.025);
+  background:
+    rgba(255, 255, 255, 0.025);
 }
 
 .v-project-screen__dots {
@@ -351,9 +460,10 @@
   text-align: right;
 }
 
-/* =========================================
+
+/* =========================================================
    SCREEN BODY
-========================================= */
+========================================================= */
 
 .v-project-screen__body {
   display: flex;
@@ -372,9 +482,11 @@
 
   padding-top: 14px;
 
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  border-right:
+    1px solid rgba(255, 255, 255, 0.05);
 
-  background: rgba(255, 255, 255, 0.015);
+  background:
+    rgba(255, 255, 255, 0.015);
 }
 
 .v-project-screen__sidebar span {
@@ -387,7 +499,8 @@
 }
 
 .v-project-screen__sidebar span.active {
-  background: rgba(34, 211, 238, 0.65);
+  background:
+    rgba(34, 211, 238, 0.65);
 
   box-shadow:
     0 0 12px rgba(34, 211, 238, 0.4);
@@ -413,7 +526,9 @@
       #8b5cf6
     );
 
-  font-family: 'Space Grotesk', sans-serif;
+  font-family:
+    'Space Grotesk',
+    sans-serif;
 
   font-size: 8px;
   font-weight: 700;
@@ -471,9 +586,10 @@
     );
 }
 
-/* =========================================
+
+/* =========================================================
    SCREEN CARDS
-========================================= */
+========================================================= */
 
 .v-project-screen__cards {
   display: grid;
@@ -489,11 +605,13 @@
 .v-project-screen__cards > div {
   padding: 8px;
 
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border:
+    1px solid rgba(255, 255, 255, 0.05);
 
   border-radius: 6px;
 
-  background: rgba(255, 255, 255, 0.025);
+  background:
+    rgba(255, 255, 255, 0.025);
 }
 
 .v-project-screen__cards small {
@@ -524,24 +642,28 @@
   font-size: 5px;
 }
 
-/* =========================================
+
+/* =========================================================
    GRAPH
-========================================= */
+========================================================= */
 
 .v-project-screen__graph {
   margin-top: 8px;
 
   padding: 9px;
 
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border:
+    1px solid rgba(255, 255, 255, 0.05);
 
   border-radius: 6px;
 
-  background: rgba(255, 255, 255, 0.018);
+  background:
+    rgba(255, 255, 255, 0.018);
 }
 
 .v-project-screen__graph-header {
   display: flex;
+
   justify-content: space-between;
 }
 
@@ -579,7 +701,8 @@
 .v-project-screen__bars i {
   flex: 1;
 
-  border-radius: 2px 2px 0 0;
+  border-radius:
+    2px 2px 0 0;
 
   background:
     linear-gradient(
@@ -601,73 +724,63 @@
 
 .v-project-screen__bars i:nth-child(2) {
   height: 45%;
-
   animation-delay: -0.15s;
 }
 
 .v-project-screen__bars i:nth-child(3) {
   height: 38%;
-
   animation-delay: -0.3s;
 }
 
 .v-project-screen__bars i:nth-child(4) {
   height: 58%;
-
   animation-delay: -0.45s;
 }
 
 .v-project-screen__bars i:nth-child(5) {
   height: 48%;
-
   animation-delay: -0.6s;
 }
 
 .v-project-screen__bars i:nth-child(6) {
   height: 67%;
-
   animation-delay: -0.75s;
 }
 
 .v-project-screen__bars i:nth-child(7) {
   height: 61%;
-
   animation-delay: -0.9s;
 }
 
 .v-project-screen__bars i:nth-child(8) {
   height: 77%;
-
   animation-delay: -1.05s;
 }
 
 .v-project-screen__bars i:nth-child(9) {
   height: 68%;
-
   animation-delay: -1.2s;
 }
 
 .v-project-screen__bars i:nth-child(10) {
   height: 88%;
-
   animation-delay: -1.35s;
 }
 
 .v-project-screen__bars i:nth-child(11) {
   height: 80%;
-
   animation-delay: -1.5s;
 }
 
 .v-project-screen__bars i:nth-child(12) {
   height: 95%;
-
   animation-delay: -1.65s;
 }
 
-/* =========================================
-   PROJECT ICON / STATUS
-========================================= */
+
+/* =========================================================
+   PROJECT ICON
+========================================================= */
 
 .v-project-icon {
   position: absolute;
@@ -681,13 +794,15 @@
   display: grid;
   place-items: center;
 
-  border: 1px solid rgba(34, 211, 238, 0.18);
+  border:
+    1px solid rgba(34, 211, 238, 0.18);
 
   border-radius: 12px;
 
   color: #67e8f9;
 
-  background: rgba(5, 9, 17, 0.9);
+  background:
+    rgba(5, 9, 17, 0.9);
 
   backdrop-filter: blur(12px);
 
@@ -703,6 +818,11 @@
     infinite;
 }
 
+
+/* =========================================================
+   PROJECT STATUS
+========================================================= */
+
 .v-project-status {
   position: absolute;
 
@@ -716,13 +836,15 @@
 
   padding: 7px 9px;
 
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border:
+    1px solid rgba(255, 255, 255, 0.08);
 
   border-radius: 8px;
 
   color: #64748b;
 
-  background: rgba(5, 8, 15, 0.82);
+  background:
+    rgba(5, 8, 15, 0.82);
 
   backdrop-filter: blur(10px);
 
@@ -746,9 +868,10 @@
     0 0 9px rgba(34, 211, 238, 0.8);
 }
 
-/* =========================================
+
+/* =========================================================
    FEATURED CONTENT
-========================================= */
+========================================================= */
 
 .v-project-featured__content {
   display: flex;
@@ -779,7 +902,9 @@
 .v-project-card__meta span:last-child {
   color: #334155;
 
-  font-family: 'Space Grotesk', sans-serif;
+  font-family:
+    'Space Grotesk',
+    sans-serif;
 
   font-size: 11px;
 }
@@ -791,7 +916,9 @@
 
   color: #f8fafc;
 
-  font-family: 'Space Grotesk', sans-serif;
+  font-family:
+    'Space Grotesk',
+    sans-serif;
 
   font-size: 34px;
   font-weight: 600;
@@ -813,6 +940,11 @@
   line-height: 1.8;
 }
 
+
+/* =========================================================
+   TAGS
+========================================================= */
+
 .v-project-tags {
   display: flex;
 
@@ -826,17 +958,142 @@
 .v-project-tags span {
   padding: 6px 9px;
 
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border:
+    1px solid rgba(255, 255, 255, 0.06);
 
   border-radius: 6px;
 
   color: #64748b;
 
-  background: rgba(255, 255, 255, 0.02);
+  background:
+    rgba(255, 255, 255, 0.02);
 
   font-size: 8px;
   font-weight: 600;
+
+  transition:
+    border-color 250ms ease,
+    color 250ms ease,
+    background 250ms ease;
 }
+
+.v-project-tags span:hover {
+  color: #cbd5e1;
+
+  border-color:
+    rgba(34, 211, 238, 0.18);
+
+  background:
+    rgba(34, 211, 238, 0.04);
+}
+
+
+/* =========================================================
+   FEATURES
+========================================================= */
+
+.v-project-features {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 7px;
+
+  margin-top: 20px;
+}
+
+.v-project-feature {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  min-width: 0;
+
+  padding: 7px 8px;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.045);
+
+  border-radius: 7px;
+
+  color: #64748b;
+
+  background:
+    rgba(255, 255, 255, 0.018);
+
+  font-size: 8px;
+
+  transition:
+    border-color 250ms ease,
+    color 250ms ease,
+    transform 250ms ease;
+}
+
+.v-project-feature svg {
+  flex-shrink: 0;
+
+  color: #22d3ee;
+}
+
+.v-project-feature span {
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.v-project-feature:hover {
+  transform: translateY(-1px);
+
+  color: #94a3b8;
+
+  border-color:
+    rgba(34, 211, 238, 0.12);
+}
+
+
+/* =========================================================
+   TECHNOLOGIES
+========================================================= */
+
+.v-project-technologies {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  gap: 6px;
+
+  margin-top: 13px;
+}
+
+.v-project-technologies span {
+  padding: 5px 8px;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.05);
+
+  border-radius: 5px;
+
+  color: #475569;
+
+  background:
+    rgba(255, 255, 255, 0.015);
+
+  font-size: 7px;
+  font-weight: 600;
+
+  letter-spacing: 0.02em;
+}
+
+
+/* =========================================================
+   FEATURED BOTTOM
+========================================================= */
 
 .v-project-featured__bottom {
   display: flex;
@@ -848,7 +1105,7 @@
 
   margin-top: auto;
 
-  padding-top: 35px;
+  padding-top: 28px;
 }
 
 .v-project-result {
@@ -861,7 +1118,9 @@
 .v-project-result strong {
   color: #f8fafc;
 
-  font-family: 'Space Grotesk', sans-serif;
+  font-family:
+    'Space Grotesk',
+    sans-serif;
 
   font-size: 24px;
 }
@@ -876,6 +1135,11 @@
   letter-spacing: 0.1em;
 }
 
+
+/* =========================================================
+   PROJECT VIEW BUTTON
+========================================================= */
+
 .v-project-view {
   display: inline-flex;
   align-items: center;
@@ -884,25 +1148,36 @@
 
   padding: 11px 14px;
 
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  border:
+    1px solid rgba(255, 255, 255, 0.09);
 
   border-radius: 10px;
 
   color: #cbd5e1;
 
-  background: rgba(255, 255, 255, 0.03);
+  background:
+    rgba(255, 255, 255, 0.03);
+
+  font-family: inherit;
 
   font-size: 9px;
   font-weight: 600;
 
+  text-decoration: none;
+
+  cursor: pointer;
+
   transition:
     transform 300ms ease,
     background 300ms ease,
-    border-color 300ms ease;
+    border-color 300ms ease,
+    color 300ms ease;
 }
 
 .v-project-view:hover {
   transform: translateY(-2px);
+
+  color: #ffffff;
 
   border-color:
     rgba(34, 211, 238, 0.2);
@@ -911,9 +1186,29 @@
     rgba(34, 211, 238, 0.06);
 }
 
-/* =========================================
+
+/* =========================================================
+   REQUEST SERVICE
+========================================================= */
+
+.v-project-request {
+  appearance: none;
+
+  font-family: inherit;
+}
+
+.v-project-request:hover {
+  border-color:
+    rgba(139, 92, 246, 0.25);
+
+  background:
+    rgba(139, 92, 246, 0.07);
+}
+
+
+/* =========================================================
    PROJECT GRID
-========================================= */
+========================================================= */
 
 .v-projects-grid {
   display: grid;
@@ -926,10 +1221,16 @@
   margin-top: 16px;
 }
 
+
+/* =========================================================
+   PROJECT CARD
+========================================================= */
+
 .v-project-card {
   overflow: hidden;
 
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border:
+    1px solid rgba(255, 255, 255, 0.07);
 
   border-radius: 22px;
 
@@ -956,6 +1257,11 @@
   min-height: 300px;
 }
 
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
 .v-project-card__content {
   padding: 25px 27px 28px;
 }
@@ -965,7 +1271,9 @@
 
   color: #f1f5f9;
 
-  font-family: 'Space Grotesk', sans-serif;
+  font-family:
+    'Space Grotesk',
+    sans-serif;
 
   font-size: 22px;
   font-weight: 600;
@@ -983,6 +1291,11 @@
   line-height: 1.75;
 }
 
+
+/* =========================================================
+   CARD FOOTER
+========================================================= */
+
 .v-project-card__footer {
   display: flex;
 
@@ -998,6 +1311,11 @@
   margin-top: 0;
 }
 
+
+/* =========================================================
+   CARD ARROW
+========================================================= */
+
 .v-project-card__arrow {
   width: 35px;
   height: 35px;
@@ -1007,11 +1325,20 @@
   display: grid;
   place-items: center;
 
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.08);
 
   border-radius: 10px;
 
   color: #64748b;
+
+  background: transparent;
+
+  font-family: inherit;
+
+  cursor: pointer;
 
   transition:
     transform 300ms ease,
@@ -1021,7 +1348,8 @@
 }
 
 .v-project-card__arrow:hover {
-  transform: translate(2px, -2px);
+  transform:
+    translate(2px, -2px);
 
   color: #ffffff;
 
@@ -1032,9 +1360,10 @@
     rgba(34, 211, 238, 0.07);
 }
 
-/* =========================================
+
+/* =========================================================
    CTA
-========================================= */
+========================================================= */
 
 .v-portfolio__cta {
   display: flex;
@@ -1048,7 +1377,8 @@
 
   padding: 28px 30px;
 
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border:
+    1px solid rgba(255, 255, 255, 0.07);
 
   border-radius: 18px;
 
@@ -1079,7 +1409,9 @@
 .v-portfolio__cta-text strong {
   color: #cbd5e1;
 
-  font-family: 'Space Grotesk', sans-serif;
+  font-family:
+    'Space Grotesk',
+    sans-serif;
 
   font-size: 17px;
   font-weight: 500;
@@ -1095,6 +1427,8 @@
 
   padding: 12px 16px;
 
+  border: 0;
+
   border-radius: 10px;
 
   color: #ffffff;
@@ -1106,8 +1440,14 @@
       #7c3aed
     );
 
+  font-family: inherit;
+
   font-size: 9px;
   font-weight: 600;
+
+  text-decoration: none;
+
+  cursor: pointer;
 
   transition:
     transform 300ms ease,
@@ -1115,30 +1455,38 @@
 }
 
 .v-portfolio__cta-button:hover {
-  transform: translateY(-2px);
+  transform:
+    translateY(-2px);
 
   box-shadow:
-    0 12px 30px rgba(59, 130, 246, 0.2);
+    0 12px 30px
+    rgba(59, 130, 246, 0.2);
 }
 
-/* =========================================
+
+/* =========================================================
    ANIMATIONS
-========================================= */
+========================================================= */
 
 @keyframes v-project-glow {
+
   0%,
   100% {
     transform: scale(0.95);
+
     opacity: 0.6;
   }
 
   50% {
     transform: scale(1.08);
+
     opacity: 1;
   }
+
 }
 
 @keyframes v-project-float {
+
   0%,
   100% {
     transform: translateY(0);
@@ -1147,9 +1495,11 @@
   50% {
     transform: translateY(-9px);
   }
+
 }
 
 @keyframes v-project-bars {
+
   0%,
   100% {
     opacity: 0.55;
@@ -1158,11 +1508,37 @@
   50% {
     opacity: 1;
   }
+
 }
 
-/* =========================================
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .v-project-visual__glow,
+  .v-project-icon,
+  .v-project-screen__bars i {
+    animation: none;
+  }
+
+  .v-project-featured,
+  .v-project-card,
+  .v-project-screen,
+  .v-project-image,
+  .v-project-view,
+  .v-project-card__arrow {
+    transition: none;
+  }
+
+}
+
+
+/* =========================================================
    TABLET
-========================================= */
+========================================================= */
 
 @media (max-width: 1050px) {
 
@@ -1170,32 +1546,51 @@
     padding: 120px 0;
   }
 
+
   .v-portfolio__heading-row {
     grid-template-columns: 1fr;
 
     gap: 20px;
   }
 
+
   .v-project-featured {
     grid-template-columns: 1fr;
   }
+
 
   .v-project-visual--featured {
     min-height: 430px;
 
     border-right: 0;
 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom:
+      1px solid rgba(255, 255, 255, 0.06);
   }
+
 
   .v-project-featured__content {
-    min-height: 430px;
+    min-height: 470px;
   }
+
+
+  .v-project-image {
+    width: 78%;
+
+    max-height: 340px;
+  }
+
+
+  .v-project-image img {
+    max-height: 340px;
+  }
+
 }
 
-/* =========================================
+
+/* =========================================================
    MOBILE
-========================================= */
+========================================================= */
 
 @media (max-width: 650px) {
 
@@ -1203,46 +1598,94 @@
     padding: 90px 0 100px;
   }
 
+
   .v-portfolio__header {
     margin-bottom: 45px;
   }
+
 
   .v-portfolio__heading-row h2 {
     font-size: 40px;
   }
 
+
   .v-portfolio__heading-row p {
     font-size: 13px;
   }
 
+
   .v-project-featured {
     border-radius: 20px;
   }
+
 
   .v-project-visual,
   .v-project-visual--featured {
     min-height: 330px;
   }
 
+
+  .v-project-image {
+    width: 88%;
+
+    max-height: 245px;
+
+    border-radius: 12px;
+
+    transform:
+      perspective(900px)
+      rotateY(-2deg)
+      rotateX(1deg);
+  }
+
+
+  .v-project-image img {
+    max-height: 245px;
+  }
+
+
   .v-project-screen {
     width: 88%;
   }
+
 
   .v-project-screen__body {
     min-height: 205px;
   }
 
+
   .v-project-screen__content {
     padding: 12px;
   }
+
 
   .v-project-screen__graph {
     margin-top: 7px;
   }
 
+
   .v-project-screen__bars {
     height: 58px;
   }
+
+
+  .v-project-icon {
+    right: 7%;
+
+    bottom: 9%;
+
+    width: 39px;
+    height: 39px;
+  }
+
+
+  .v-project-status {
+    top: 8%;
+    left: 6%;
+
+    padding: 6px 8px;
+  }
+
 
   .v-project-featured__content {
     min-height: auto;
@@ -1250,13 +1693,23 @@
     padding: 28px 22px;
   }
 
+
   .v-project-featured__content h3 {
     font-size: 27px;
   }
 
+
   .v-project-featured__content > p {
     font-size: 11px;
   }
+
+
+  .v-project-features {
+    grid-template-columns: 1fr;
+
+    gap: 6px;
+  }
+
 
   .v-project-featured__bottom {
     align-items: flex-start;
@@ -1266,27 +1719,51 @@
     padding-top: 27px;
   }
 
+
+  .v-project-view {
+    width: 100%;
+
+    justify-content: center;
+  }
+
+
   .v-projects-grid {
     grid-template-columns: 1fr;
 
     gap: 12px;
   }
 
+
   .v-project-card {
     border-radius: 18px;
   }
+
 
   .v-project-card .v-project-visual {
     min-height: 300px;
   }
 
+
   .v-project-card__content {
     padding: 22px;
   }
 
+
   .v-project-card__content h3 {
     font-size: 20px;
   }
+
+
+  .v-project-card__footer {
+    align-items: flex-end;
+  }
+
+
+  .v-project-card__footer
+  .v-project-technologies {
+    max-width: calc(100% - 50px);
+  }
+
 
   .v-portfolio__cta {
     flex-direction: column;
@@ -1298,9 +1775,57 @@
     padding: 23px;
   }
 
+
   .v-portfolio__cta-button {
     width: 100%;
 
     justify-content: center;
   }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+  .v-portfolio__heading-row h2 {
+    font-size: 34px;
+  }
+
+
+  .v-project-visual,
+  .v-project-visual--featured {
+    min-height: 300px;
+  }
+
+
+  .v-project-image {
+    width: 91%;
+
+    max-height: 215px;
+  }
+
+
+  .v-project-image img {
+    max-height: 215px;
+  }
+
+
+  .v-project-screen {
+    width: 91%;
+  }
+
+
+  .v-project-featured__content {
+    padding: 24px 18px;
+  }
+
+
+  .v-project-card__content {
+    padding: 20px 18px;
+  }
+
 }

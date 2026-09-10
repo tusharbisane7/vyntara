@@ -17,6 +17,13 @@ import adminJobsRouter from './routes/adminJobs.js';
 
 import applicationsRouter from './routes/applications.js';
 
+/* =========================================================
+   WEBSITE POPUP
+========================================================= */
+
+import publicPopupRouter from './routes/publicPopup.js';
+import adminPopupRouter from './routes/adminPopup.js';
+
 
 /* =========================================================
    APP
@@ -43,23 +50,36 @@ app.use(
   cors({
     origin: (origin, callback) => {
 
-      // Allow requests without Origin
-      // Example: Postman / direct browser requests
+      /*
+       * Allow requests without Origin.
+       *
+       * Examples:
+       * - Postman
+       * - Server-to-server requests
+       * - Direct browser requests
+       */
+
       if (!origin) {
         return callback(null, true);
       }
 
+
       if (allowedOrigins.includes(origin)) {
+
         return callback(null, true);
+
       }
+
 
       console.warn(
         `Blocked by CORS: ${origin}`
       );
 
+
       return callback(
         new Error('Not allowed by CORS')
       );
+
     },
 
     credentials: true
@@ -77,6 +97,7 @@ app.use(
   })
 );
 
+
 app.use(
   express.urlencoded({
     extended: true,
@@ -87,12 +108,16 @@ app.use(
 
 /* =========================================================
    STATIC FILES / RESUMES
+=========================================================
 
    Database stores:
+
    /uploads/resumes/filename.pdf
 
    Browser accesses:
+
    http://localhost:5000/uploads/resumes/filename.pdf
+
 ========================================================= */
 
 const uploadsDirectory =
@@ -113,6 +138,10 @@ app.use(
 
 /* =========================================================
    HEALTH CHECK
+=========================================================
+
+   GET /api/health
+
 ========================================================= */
 
 app.get(
@@ -125,12 +154,17 @@ app.get(
         SELECT 1
       `;
 
+
       return res.status(200).json({
+
         success: true,
+
         message:
           'Vyntara API is running.',
+
         database:
           'connected'
+
       });
 
     } catch (error) {
@@ -140,18 +174,28 @@ app.get(
         error
       );
 
+
       return res.status(500).json({
+
         success: false,
+
         message:
           'Database connection failed.'
+
       });
+
     }
+
   }
 );
 
 
 /* =========================================================
    ROOT
+=========================================================
+
+   GET /
+
 ========================================================= */
 
 app.get(
@@ -159,16 +203,26 @@ app.get(
   (req, res) => {
 
     return res.status(200).json({
+
       success: true,
+
       message:
         'Vyntara Technologies API'
+
     });
+
   }
 );
 
 
 /* =========================================================
    ADMIN AUTH / DASHBOARD
+=========================================================
+
+   Mounted at:
+
+   /api/admin
+
 ========================================================= */
 
 app.use(
@@ -179,6 +233,12 @@ app.use(
 
 /* =========================================================
    PROJECT ENQUIRIES
+=========================================================
+
+   Public/project routes:
+
+   /api/projects
+
 ========================================================= */
 
 app.use(
@@ -189,9 +249,14 @@ app.use(
 
 /* =========================================================
    PUBLIC JOBS
+=========================================================
 
-   GET /api/jobs
-   GET /api/jobs/:id
+   GET
+   /api/jobs
+
+   GET
+   /api/jobs/:id
+
 ========================================================= */
 
 app.use(
@@ -202,12 +267,23 @@ app.use(
 
 /* =========================================================
    ADMIN JOBS
+=========================================================
 
-   GET    /api/admin/jobs
-   POST   /api/admin/jobs
-   PUT    /api/admin/jobs/:id
-   PATCH  /api/admin/jobs/:id/status
-   DELETE /api/admin/jobs/:id
+   GET
+   /api/admin/jobs
+
+   POST
+   /api/admin/jobs
+
+   PUT
+   /api/admin/jobs/:id
+
+   PATCH
+   /api/admin/jobs/:id/status
+
+   DELETE
+   /api/admin/jobs/:id
+
 ========================================================= */
 
 app.use(
@@ -218,8 +294,9 @@ app.use(
 
 /* =========================================================
    JOB APPLICATIONS
+=========================================================
 
-   applications.js already contains:
+   applications.js contains:
 
    POST
    /jobs/:id/applications
@@ -236,7 +313,10 @@ app.use(
    DELETE
    /admin/applications/:id
 
-   Therefore mount at /api
+   Therefore mount at:
+
+   /api
+
 ========================================================= */
 
 app.use(
@@ -247,6 +327,11 @@ app.use(
 
 /* =========================================================
    PUBLIC TESTIMONIALS
+=========================================================
+
+   GET
+   /api/testimonials
+
 ========================================================= */
 
 app.use(
@@ -257,11 +342,67 @@ app.use(
 
 /* =========================================================
    ADMIN TESTIMONIALS
+=========================================================
+
+   Admin testimonial routes:
+
+   /api/admin/testimonials
+
 ========================================================= */
 
 app.use(
   '/api/admin/testimonials',
   testimonialsRouter
+);
+
+
+/* =========================================================
+   WEBSITE POPUP
+=========================================================
+
+   PUBLIC
+
+   GET
+   /api/popup
+
+
+   ADMIN
+
+   GET
+   /api/admin/popup
+
+   POST
+   /api/admin/popup
+
+   PUT
+   /api/admin/popup/:id
+
+   PATCH
+   /api/admin/popup/:id/status
+
+   DELETE
+   /api/admin/popup/:id
+
+========================================================= */
+
+
+/* ---------------------------------------------------------
+   PUBLIC POPUP
+--------------------------------------------------------- */
+
+app.use(
+  '/api/popup',
+  publicPopupRouter
+);
+
+
+/* ---------------------------------------------------------
+   ADMIN POPUP
+--------------------------------------------------------- */
+
+app.use(
+  '/api/admin/popup',
+  adminPopupRouter
 );
 
 
@@ -274,10 +415,14 @@ app.use(
   (req, res) => {
 
     return res.status(404).json({
+
       success: false,
+
       message:
         'API endpoint not found.'
+
     });
+
   }
 );
 
@@ -290,10 +435,14 @@ app.use(
   (req, res) => {
 
     return res.status(404).json({
+
       success: false,
+
       message:
         'Resource not found.'
+
     });
+
   }
 );
 
@@ -316,7 +465,9 @@ app.use(
     );
 
 
-    /* ---------------- CORS ---------------- */
+    /* =====================================================
+       CORS ERROR
+    ===================================================== */
 
     if (
       error.message ===
@@ -324,14 +475,20 @@ app.use(
     ) {
 
       return res.status(403).json({
+
         success: false,
+
         message:
           'Request origin is not allowed.'
+
       });
+
     }
 
 
-    /* ---------------- MULTER / FILE SIZE ---------------- */
+    /* =====================================================
+       MULTER / FILE SIZE
+    ===================================================== */
 
     if (
       error.code ===
@@ -339,23 +496,33 @@ app.use(
     ) {
 
       return res.status(400).json({
+
         success: false,
+
         message:
           'Uploaded file is too large.'
+
       });
+
     }
 
 
-    /* ---------------- DEFAULT ---------------- */
+    /* =====================================================
+       DEFAULT ERROR
+    ===================================================== */
 
     return res.status(
       error.status || 500
     ).json({
+
       success: false,
+
       message:
         error.message ||
         'Internal server error.'
+
     });
+
   }
 );
 
@@ -369,6 +536,7 @@ app.listen(
   () => {
 
     console.log('');
+
     console.log(
       '========================================'
     );
@@ -394,9 +562,18 @@ app.listen(
     );
 
     console.log(
+      `Public Popup: http://localhost:${PORT}/api/popup`
+    );
+
+    console.log(
+      `Admin Popup: http://localhost:${PORT}/api/admin/popup`
+    );
+
+    console.log(
       '========================================'
     );
 
     console.log('');
+
   }
 );

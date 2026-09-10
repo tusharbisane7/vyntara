@@ -57,6 +57,7 @@ import vyntaraLogo from '../../assets/vyntara-logo.png';
 ========================================================= */
 
 const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
   'http://localhost:5000';
 
 const getResumeUrl = (resumeUrl) => {
@@ -191,6 +192,27 @@ function AdminDashboard() {
     description: '',
     tags: '',
     is_active: true
+  });
+
+
+  /* =======================================================
+     WEBSITE POPUP
+  ======================================================= */
+
+  const [popupLoading, setPopupLoading] = useState(false);
+  const [popupSaving, setPopupSaving] = useState(false);
+  const [popup, setPopup] = useState(null);
+  const [popupForm, setPopupForm] = useState({
+    title: 'Welcome to Vyntara Technologies',
+    description: 'Digital solutions built to move your business forward.',
+    image_url: '',
+    button_text: 'Explore Our Services',
+    button_url: '/#services',
+    button_enabled: true,
+    is_active: false,
+    display_frequency: 'once_per_session',
+    start_date: '',
+    end_date: ''
   });
 
 
@@ -356,6 +378,7 @@ function AdminDashboard() {
       loadTestimonials();
       loadJobs();
       loadApplications();
+      loadPopup();
 
     } catch (err) {
 
@@ -2657,6 +2680,189 @@ function AdminDashboard() {
 
 
   /* =======================================================
+     WEBSITE POPUP API
+  ======================================================= */
+
+  const loadPopup = async () => {
+    try {
+      setPopupLoading(true);
+
+      const data = await jobRequest('/api/admin/popup');
+      const popupData = data?.popup || data?.data || null;
+
+      setPopup(popupData);
+
+      if (popupData) {
+        setPopupForm({
+          title: popupData.title || '',
+          description: popupData.description || '',
+          image_url: popupData.image_url || '',
+          button_text: popupData.button_text || 'Explore Our Services',
+          button_url: popupData.button_url || '/#services',
+          button_enabled: popupData.button_enabled !== false,
+          is_active: Boolean(popupData.is_active),
+          display_frequency: popupData.display_frequency || 'once_per_session',
+          start_date: popupData.start_date ? String(popupData.start_date).slice(0, 16) : '',
+          end_date: popupData.end_date ? String(popupData.end_date).slice(0, 16) : ''
+        });
+      }
+    } catch (err) {
+      // A missing popup record should not break the rest of the admin dashboard.
+      console.error('Popup loading error:', err);
+    } finally {
+      setPopupLoading(false);
+    }
+  };
+
+  const handlePopupChange = (event) => {
+    const { name, value, type, checked } = event.target;
+
+    setPopupForm((current) => ({
+      ...current,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+
+    if (error) setError('');
+  };
+
+  const handlePopupSubmit = async (event) => {
+    event.preventDefault();
+
+    if (popupSaving) return;
+
+    if (!popupForm.title.trim()) {
+      setError('Please enter a popup title.');
+      return;
+    }
+
+    if (!popupForm.description.trim()) {
+      setError('Please enter popup text.');
+      return;
+    }
+
+    try {
+      setPopupSaving(true);
+      setError('');
+
+      const payload = {
+        title: popupForm.title.trim(),
+        description: popupForm.description.trim(),
+        image_url: popupForm.image_url.trim(),
+        button_text: popupForm.button_text.trim(),
+        button_url: popupForm.button_url.trim(),
+        button_enabled: Boolean(popupForm.button_enabled),
+        is_active: Boolean(popupForm.is_active),
+        display_frequency: popupForm.display_frequency,
+        start_date: popupForm.start_date || null,
+        end_date: popupForm.end_date || null
+      };
+
+      const data = popup
+        ? await jobRequest(`/api/admin/popup/${popup.id}`, {
+            method: 'PUT',
+            body: JSON.stringify(payload)
+          })
+        : await jobRequest('/api/admin/popup', {
+            method: 'POST',
+            body: JSON.stringify(payload)
+          });
+
+      const savedPopup = data?.popup || data?.data;
+
+      if (savedPopup) {
+        setPopup(savedPopup);
+        setPopupForm((current) => ({
+          ...current,
+          start_date: savedPopup.start_date ? String(savedPopup.start_date).slice(0, 16) : '',
+          end_date: savedPopup.end_date ? String(savedPopup.end_date).slice(0, 16) : ''
+        }));
+      } else {
+        await loadPopup();
+      }
+
+      showSuccess(popup ? 'Website popup updated successfully.' : 'Website popup created successfully.');
+    } catch (err) {
+      console.error(err);
+      setError(err.message || 'Unable to save website popup.');
+    } finally {
+      setPopupSaving(false);
+    }
+  };
+
+  const handleTogglePopup = async () => {
+    if (!popup) {
+      setPopupForm((current) => ({ ...current, is_active: !current.is_active }));
+      return;
+    }
+
+    try {
+      setPopupSaving(true);
+      setError('');
+
+      const data = await jobRequest(`/api/admin/popup/${popup.id}/status`, {
+        method: 'PATCH',
+        body: JSON.stringify({ is_active: !popup.is_active })
+      });
+
+      const updatedPopup = data?.popup || data?.data;
+      if (updatedPopup) {
+        setPopup(updatedPopup);
+        setPopupForm((current) => ({
+          ...current,
+          is_active: Boolean(updatedPopup.is_active)
+        }));
+      } else {
+        await loadPopup();
+      }
+
+      showSuccess(popup.is_active ? 'Website popup deactivated.' : 'Website popup activated.');
+    } catch (err) {
+      console.error(err);
+      setError(err.message || 'Unable to update popup status.');
+    } finally {
+      setPopupSaving(false);
+    }
+  };
+
+  const handleDeletePopup = async () => {
+    if (!popup) return;
+
+    const confirmed = window.confirm(
+      'Are you sure you want to delete the website popup? This action cannot be undone.'
+    );
+
+    if (!confirmed) return;
+
+    try {
+      setPopupSaving(true);
+      setError('');
+
+      await jobRequest(`/api/admin/popup/${popup.id}`, { method: 'DELETE' });
+
+      setPopup(null);
+      setPopupForm({
+        title: 'Welcome to Vyntara Technologies',
+        description: 'Digital solutions built to move your business forward.',
+        image_url: '',
+        button_text: 'Explore Our Services',
+        button_url: '/#services',
+        button_enabled: true,
+        is_active: false,
+        display_frequency: 'once_per_session',
+        start_date: '',
+        end_date: ''
+      });
+
+      showSuccess('Website popup deleted successfully.');
+    } catch (err) {
+      console.error(err);
+      setError(err.message || 'Unable to delete website popup.');
+    } finally {
+      setPopupSaving(false);
+    }
+  };
+
+  /* =======================================================
      STATUS LABEL
   ======================================================= */
 
@@ -2957,8 +3163,26 @@ function AdminDashboard() {
           </button>
 
 
-          {/* SETTINGS */}
+          {/* WEBSITE POPUP */}
+          <button
+            type="button"
+            className={
+              activePage ===
+              'popup'
+                ? 'active'
+                : ''
+            }
+            onClick={() =>
+              navigate('popup')
+            }
+          >
+            <Bell size={18} />
+            <span>Website Popup</span>
+            {popup?.is_active && <b>ON</b>}
+          </button>
 
+
+          {/* SETTINGS */}
           <button
             type="button"
             className={
@@ -3103,7 +3327,10 @@ function AdminDashboard() {
                         : activePage ===
                           'testimonials'
                           ? 'Testimonials'
-                          : 'Settings'}
+                          : activePage ===
+                            'popup'
+                            ? 'Website Popup'
+                            : 'Settings'}
 
               </h1>
 
@@ -5169,6 +5396,270 @@ function AdminDashboard() {
 
         )}
 
+
+        {/* =================================================
+            WEBSITE POPUP
+        ================================================= */}
+
+        {activePage === 'popup' && (
+          <section className="admin-content">
+            <div className="admin-page-heading">
+              <div>
+                <span>WEBSITE EXPERIENCE</span>
+                <h2>Website Popup</h2>
+                <p>
+                  Control the welcome popup visitors see when they open the Vyntara website.
+                </p>
+              </div>
+
+              <div className={`admin-popup-status ${popupForm.is_active ? 'is-active' : ''}`}>
+                <span className="admin-popup-status-dot" />
+                {popupForm.is_active ? 'LIVE' : 'INACTIVE'}
+              </div>
+            </div>
+
+            <div className="admin-popup-editor-grid">
+              <div className="admin-panel admin-popup-editor-card">
+                <div className="admin-panel-header">
+                  <div>
+                    <span>POPUP CONTENT</span>
+                    <h3>Configure Visitor Popup</h3>
+                  </div>
+                  {popupLoading && <RefreshCw size={17} className="spinning" />}
+                </div>
+
+                <form className="admin-popup-form" onSubmit={handlePopupSubmit}>
+                  <div className="admin-popup-logo-note">
+                    <img src={vyntaraLogo} alt="Vyntara Technologies" />
+                    <div>
+                      <strong>Vyntara Technologies</strong>
+                      <span>Your website logo is automatically included in the popup.</span>
+                    </div>
+                  </div>
+
+                  <div className="admin-popup-field">
+                    <label>Popup Title *</label>
+                    <input
+                      type="text"
+                      name="title"
+                      value={popupForm.title}
+                      onChange={handlePopupChange}
+                      placeholder="Welcome to Vyntara Technologies"
+                      required
+                      disabled={popupSaving}
+                    />
+                  </div>
+
+                  <div className="admin-popup-field">
+                    <label>Popup Text *</label>
+                    <textarea
+                      name="description"
+                      value={popupForm.description}
+                      onChange={handlePopupChange}
+                      placeholder="Write the message visitors should see..."
+                      rows={5}
+                      required
+                      disabled={popupSaving}
+                    />
+                  </div>
+
+                  <div className="admin-popup-field">
+                    <label>Image URL</label>
+                    <input
+                      type="url"
+                      name="image_url"
+                      value={popupForm.image_url}
+                      onChange={handlePopupChange}
+                      placeholder="https://.../popup-banner.jpg"
+                      disabled={popupSaving}
+                    />
+                    <small>
+                      Optional promotional image. The Vyntara logo remains visible even when this is empty.
+                    </small>
+                  </div>
+
+                  <div className="admin-popup-two-column">
+                    <div className="admin-popup-field">
+                      <label>Button Text</label>
+                      <input
+                        type="text"
+                        name="button_text"
+                        value={popupForm.button_text}
+                        onChange={handlePopupChange}
+                        placeholder="Explore Our Services"
+                        disabled={popupSaving || !popupForm.button_enabled}
+                      />
+                    </div>
+
+                    <div className="admin-popup-field">
+                      <label>Button URL</label>
+                      <input
+                        type="text"
+                        name="button_url"
+                        value={popupForm.button_url}
+                        onChange={handlePopupChange}
+                        placeholder="/#services or https://..."
+                        disabled={popupSaving || !popupForm.button_enabled}
+                      />
+                    </div>
+                  </div>
+
+                  <label className="admin-popup-checkbox">
+                    <input
+                      type="checkbox"
+                      name="button_enabled"
+                      checked={popupForm.button_enabled}
+                      onChange={handlePopupChange}
+                      disabled={popupSaving}
+                    />
+                    <span>
+                      <strong>Show CTA button</strong>
+                      <small>Display an action button below the popup message.</small>
+                    </span>
+                  </label>
+
+                  <div className="admin-popup-field">
+                    <label>Display Frequency</label>
+                    <select
+                      name="display_frequency"
+                      value={popupForm.display_frequency}
+                      onChange={handlePopupChange}
+                      disabled={popupSaving}
+                    >
+                      <option value="every_visit">Every visit</option>
+                      <option value="once_per_session">Once per session</option>
+                      <option value="once_per_day">Once per day</option>
+                      <option value="once_per_7_days">Once per 7 days</option>
+                    </select>
+                  </div>
+
+                  <div className="admin-popup-two-column">
+                    <div className="admin-popup-field">
+                      <label>Start Date</label>
+                      <input
+                        type="datetime-local"
+                        name="start_date"
+                        value={popupForm.start_date}
+                        onChange={handlePopupChange}
+                        disabled={popupSaving}
+                      />
+                    </div>
+
+                    <div className="admin-popup-field">
+                      <label>End Date</label>
+                      <input
+                        type="datetime-local"
+                        name="end_date"
+                        value={popupForm.end_date}
+                        onChange={handlePopupChange}
+                        disabled={popupSaving}
+                      />
+                    </div>
+                  </div>
+
+                  <label className="admin-popup-checkbox admin-popup-live-toggle">
+                    <input
+                      type="checkbox"
+                      name="is_active"
+                      checked={popupForm.is_active}
+                      onChange={handlePopupChange}
+                      disabled={popupSaving}
+                    />
+                    <span>
+                      <strong>Activate popup on website</strong>
+                      <small>Visitors will see this popup when the schedule allows it.</small>
+                    </span>
+                  </label>
+
+                  <div className="admin-popup-actions">
+                    <button
+                      type="submit"
+                      className="admin-settings-save"
+                      disabled={popupSaving}
+                    >
+                      {popupSaving ? 'Saving...' : popup ? 'Save Popup' : 'Create Popup'}
+                    </button>
+
+                    {popup && (
+                      <button
+                        type="button"
+                        className="admin-delete-button"
+                        onClick={handleDeletePopup}
+                        disabled={popupSaving}
+                      >
+                        <Trash2 size={16} />
+                        Delete Popup
+                      </button>
+                    )}
+                  </div>
+                </form>
+              </div>
+
+              <div className="admin-panel admin-popup-preview-panel">
+                <div className="admin-panel-header">
+                  <div>
+                    <span>LIVE PREVIEW</span>
+                    <h3>Visitor View</h3>
+                  </div>
+                  <Eye size={18} />
+                </div>
+
+                <div className="admin-popup-preview-stage">
+                  <div className="admin-popup-preview-card">
+                    <button type="button" className="admin-popup-preview-close" aria-label="Close preview">
+                      <X size={17} />
+                    </button>
+
+                    <div className="admin-popup-preview-brand">
+                      <img src={vyntaraLogo} alt="Vyntara Technologies" />
+                      <div>
+                        <strong>VYNTARA</strong>
+                        <span>TECHNOLOGIES</span>
+                      </div>
+                    </div>
+
+                    {popupForm.image_url ? (
+                      <img
+                        className="admin-popup-preview-image"
+                        src={popupForm.image_url}
+                        alt="Popup preview"
+                        onError={(event) => {
+                          event.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <div className="admin-popup-preview-logo-hero">
+                        <img src={vyntaraLogo} alt="Vyntara" />
+                      </div>
+                    )}
+
+                    <div className="admin-popup-preview-copy">
+                      <span>VYNTARA TECHNOLOGIES</span>
+                      <h4>{popupForm.title || 'Popup title'}</h4>
+                      <p>{popupForm.description || 'Popup description will appear here.'}</p>
+                    </div>
+
+                    {popupForm.button_enabled && (
+                      <button type="button" className="admin-popup-preview-cta">
+                        {popupForm.button_text || 'Explore Our Services'}
+                      </button>
+                    )}
+
+                    <small className="admin-popup-preview-frequency">
+                      {popupForm.display_frequency === 'every_visit'
+                        ? 'Shows every visit'
+                        : popupForm.display_frequency === 'once_per_day'
+                          ? 'Shows once per day'
+                          : popupForm.display_frequency === 'once_per_7_days'
+                            ? 'Shows once every 7 days'
+                            : 'Shows once per session'}
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* =================================================
             SETTINGS

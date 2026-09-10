@@ -21,8 +21,8 @@ const contactOptions = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'vyntaratech@gmail.com',
-    href: 'mailto:vyntaratech@gmail.com'
+    value: 'technologiesvyntara@gmail.com',
+    href: 'mailto:technologiesvyntara@gmail.com'
   },
   {
     icon: Phone,

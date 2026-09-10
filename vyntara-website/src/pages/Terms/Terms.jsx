@@ -276,7 +276,7 @@ function Terms() {
 
             <div className="legal-contact">
               <strong>Vyntara Technologies</strong>
-              <span>Email: hello@vyntara.tech</span>
+              <span>Email: technologiesvyntara@gmail.com</span>
               <span>Website: Vyntara Technologies</span>
             </div>
           </section>

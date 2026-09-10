@@ -12,7 +12,8 @@ import PrivacyPolicy
 import Terms
   from './pages/Terms/Terms';
 
-import Careers from './pages/Careers/Careers';
+import Careers
+  from './pages/Careers/Careers';
 
 import AdminLogin
   from './pages/AdminLogin/AdminLogin';
@@ -26,7 +27,16 @@ import ProjectForm
 import ScrollToTop
   from './components/ScrollToTop/ScrollToTop';
 
+/* =========================================
+   WEBSITE POPUP
+========================================= */
+
+import WelcomePopup
+  from './components/WelcomePopup/WelcomePopup';
+
+
 import './App.css';
+
 
 function App() {
   return (
@@ -64,10 +74,16 @@ function App() {
           />
 
 
-<Route
-    path="/careers"
-    element={<Careers />}
-  />
+          {/* =====================================
+              CAREERS
+          ===================================== */}
+
+          <Route
+            path="/careers"
+            element={<Careers />}
+          />
+
+
           {/* =====================================
               ADMIN
           ===================================== */}
@@ -96,10 +112,18 @@ function App() {
 
         <ProjectForm />
 
+
+        {/* =====================================
+            WEBSITE POPUP
+        ===================================== */}
+
+        <WelcomePopup />
+
       </div>
 
     </BrowserRouter>
   );
 }
+
 
 export default App;
