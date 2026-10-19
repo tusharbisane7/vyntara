@@ -13,7 +13,7 @@ function Terms() {
             Technologies website and your interaction with our services.
           </p>
           <span className="legal-updated">
-            Last Updated: September 8, 2026
+            Last Updated: October 8, 2026
           </span>
         </header>
 
@@ -276,8 +276,13 @@ function Terms() {
 
             <div className="legal-contact">
               <strong>Vyntara Technologies</strong>
-              <span>Email: technologiesvyntara@gmail.com</span>
-              <span>Website: Vyntara Technologies</span>
+              <span>Email: support@vyntaralabs.tech</span>
+               <span>
+    Website:{' '}
+    <a href="https://vyntaralabs.tech/">
+      vyntaralabs.tech
+    </a>
+  </span>
             </div>
           </section>
 
