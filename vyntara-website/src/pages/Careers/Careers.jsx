@@ -433,7 +433,7 @@ function Careers() {
 
 
                 <a
-                  href="mailto:hr@vyntaratech.in?subject=Career Application - Vyntara Technologies"
+                  href="mailto:technologiesvyntara@gmail.com?subject=Career Application - Vyntara Technologies"
                   className="careers-secondary-btn"
                 >
 
