@@ -1,4 +1,3 @@
-// routes/projects.js
 
 import express from 'express';
 import sql from '../config/db.js';
@@ -24,8 +23,8 @@ router.post('/', async (req, res) => {
       projectType,
       budget,
       timeline,
-      message
-    } = req.body;
+      message,
+    } = req.body ?? {};
 
     // Normalize input
     const fullName =
@@ -65,7 +64,7 @@ router.post('/', async (req, res) => {
     ) {
       return res.status(400).json({
         success: false,
-        message: 'Please fill all required fields.'
+        message: 'Please fill all required fields.',
       });
     }
 
@@ -75,7 +74,7 @@ router.post('/', async (req, res) => {
     if (!emailRegex.test(cleanEmail)) {
       return res.status(400).json({
         success: false,
-        message: 'Please enter a valid email address.'
+        message: 'Please enter a valid email address.',
       });
     }
 
@@ -83,25 +82,25 @@ router.post('/', async (req, res) => {
     if (fullName.length > 150) {
       return res.status(400).json({
         success: false,
-        message: 'Name is too long.'
+        message: 'Name is too long.',
       });
     }
 
     if (cleanEmail.length > 254) {
       return res.status(400).json({
         success: false,
-        message: 'Email address is too long.'
+        message: 'Email address is too long.',
       });
     }
 
     if (projectDescription.length > 10000) {
       return res.status(400).json({
         success: false,
-        message: 'Project description is too long.'
+        message: 'Project description is too long.',
       });
     }
 
-    // Save enquiry in Neon PostgreSQL
+    // Save the enquiry in Neon PostgreSQL first.
     const result = await sql`
       INSERT INTO project_requests (
         full_name,
@@ -141,34 +140,36 @@ router.post('/', async (req, res) => {
 
     const project = result[0];
 
-    // Send confirmation after successful database insertion.
-    // Do not fail the enquiry if the email service is unavailable.
-    try {
-      await sendSubmissionConfirmation({
-        to: cleanEmail,
-        name: fullName,
-        kind: 'enquiry'
-      });
-    } catch (emailError) {
+    // Return success immediately after the database insert.
+    // The client does not wait for the email provider.
+    res.status(201).json({
+      success: true,
+      message: 'Project request submitted successfully.',
+      project,
+    });
+
+    // Send confirmation in the background.
+    // Email failure must not change the successful submission.
+    void sendSubmissionConfirmation({
+      to: cleanEmail,
+      name: fullName,
+      kind: 'enquiry',
+      reference: String(project.id),
+    }).catch((emailError) => {
       console.error(
         'Project enquiry confirmation email failed:',
         emailError
       );
-    }
-
-    return res.status(201).json({
-      success: true,
-      message: 'Project request submitted successfully.',
-      project
     });
-
   } catch (error) {
     console.error('Project submission error:', error);
 
-    return res.status(500).json({
-      success: false,
-      message: 'Unable to submit project request.'
-    });
+    if (!res.headersSent) {
+      return res.status(500).json({
+        success: false,
+        message: 'Unable to submit project request.',
+      });
+    }
   }
 });
 

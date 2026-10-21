@@ -1,4 +1,3 @@
-// routes/applications.js
 
 import express from 'express';
 import multer from 'multer';
@@ -8,9 +7,7 @@ import fs from 'fs';
 import sql from '../config/db.js';
 import { sendSubmissionConfirmation } from '../utils/sendEmail.js';
 
-import {
-  authenticateAdmin
-} from '../middleware/auth.js';
+import { authenticateAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -21,11 +18,11 @@ const router = express.Router();
 const resumeDirectory = path.resolve('uploads/resumes');
 
 fs.mkdirSync(resumeDirectory, {
-  recursive: true
+  recursive: true,
 });
 
 // =========================================================
-// MULTER STORAGE
+// FILE UPLOAD CONFIGURATION
 // =========================================================
 
 const storage = multer.diskStorage({
@@ -36,52 +33,54 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     const extension = path.extname(file.originalname).toLowerCase();
 
-    const filename =
-      `${Date.now()}-${Math.random()
-        .toString(36)
-        .substring(2, 10)}${extension}`;
+    const filename = `${Date.now()}-${Math.random()
+      .toString(36)
+      .substring(2, 10)}${extension}`;
 
     cb(null, filename);
-  }
+  },
 });
 
-// =========================================================
-// FILE FILTER
-// =========================================================
-
-const allowedExtensions = [
-  '.pdf',
-  '.doc',
-  '.docx'
-];
+const allowedExtensions = ['.pdf', '.doc', '.docx'];
 
 const fileFilter = (req, file, cb) => {
   const extension = path.extname(file.originalname).toLowerCase();
 
   if (!allowedExtensions.includes(extension)) {
-    return cb(
-      new Error('Only PDF, DOC and DOCX files are allowed.')
+    const error = new Error(
+      'Only PDF, DOC and DOCX files are allowed.'
     );
+
+    error.status = 400;
+    return cb(error);
   }
 
   cb(null, true);
 };
 
-// =========================================================
-// UPLOAD
-// =========================================================
-
 const upload = multer({
   storage,
   fileFilter,
   limits: {
-    fileSize: 5 * 1024 * 1024
-  }
+    fileSize: 5 * 1024 * 1024,
+  },
 });
 
 // =========================================================
-// APPLICATION NUMBER
+// HELPERS
 // =========================================================
+
+function removeUploadedFile(filePath) {
+  if (!filePath || !fs.existsSync(filePath)) {
+    return;
+  }
+
+  try {
+    fs.unlinkSync(filePath);
+  } catch (error) {
+    console.error('Resume cleanup error:', error);
+  }
+}
 
 function generateApplicationNumber() {
   const date = new Date()
@@ -96,10 +95,6 @@ function generateApplicationNumber() {
 
   return `VYN-${date}-${random}`;
 }
-
-// =========================================================
-// SKILLS
-// =========================================================
 
 function normalizeSkills(skills) {
   if (Array.isArray(skills)) {
@@ -118,7 +113,7 @@ function normalizeSkills(skills) {
           .filter(Boolean);
       }
     } catch {
-      // Treat non-JSON skill input as a comma-separated list.
+      // Treat non-JSON input as a comma-separated list.
     }
 
     return skills
@@ -139,14 +134,11 @@ router.post(
   '/jobs/:id/applications',
   upload.single('resume'),
   async (req, res) => {
-    let uploadedFile = null;
+    let uploadedFile = req.file?.path ?? null;
+    let applicationSaved = false;
 
     try {
       const jobId = req.params.id;
-
-      // -----------------------------------------------------
-      // GET FORM DATA
-      // -----------------------------------------------------
 
       const {
         first_name,
@@ -169,45 +161,63 @@ router.post(
         github_url,
         portfolio_url,
         cover_letter,
-        consent
+        consent,
       } = req.body;
-
-      if (req.file) {
-        uploadedFile = req.file.path;
-      }
 
       // -----------------------------------------------------
       // REQUIRED FIELDS
       // -----------------------------------------------------
 
       if (
-        !first_name?.trim() ||
-        !last_name?.trim() ||
-        !email?.trim() ||
-        !phone?.trim()
+        typeof first_name !== 'string' ||
+        !first_name.trim() ||
+        typeof last_name !== 'string' ||
+        !last_name.trim() ||
+        typeof email !== 'string' ||
+        !email.trim() ||
+        typeof phone !== 'string' ||
+        !phone.trim()
       ) {
+        removeUploadedFile(uploadedFile);
+
         return res.status(400).json({
           success: false,
           message:
-            'First name, last name, email and phone are required.'
+            'First name, last name, email and phone are required.',
         });
       }
 
-      // Validate email format.
+      const cleanFirstName = first_name.trim();
+      const cleanLastName = last_name.trim();
       const cleanEmail = email.trim().toLowerCase();
+      const cleanPhone = phone.trim();
+
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       if (!emailRegex.test(cleanEmail)) {
+        removeUploadedFile(uploadedFile);
+
         return res.status(400).json({
           success: false,
-          message: 'Please enter a valid email address.'
+          message: 'Please enter a valid email address.',
         });
       }
 
       if (cleanEmail.length > 254) {
+        removeUploadedFile(uploadedFile);
+
         return res.status(400).json({
           success: false,
-          message: 'Email address is too long.'
+          message: 'Email address is too long.',
+        });
+      }
+
+      if (cleanFirstName.length > 150 || cleanLastName.length > 150) {
+        removeUploadedFile(uploadedFile);
+
+        return res.status(400).json({
+          success: false,
+          message: 'Name is too long.',
         });
       }
 
@@ -222,10 +232,11 @@ router.post(
         consent === 'on';
 
       if (!hasConsent) {
+        removeUploadedFile(uploadedFile);
+
         return res.status(400).json({
           success: false,
-          message:
-            'You must agree to the application consent.'
+          message: 'You must agree to the application consent.',
         });
       }
 
@@ -234,27 +245,27 @@ router.post(
       // -----------------------------------------------------
 
       const jobResult = await sql`
-        SELECT
-          id,
-          position_name,
-          is_active
+        SELECT id, position_name, is_active
         FROM jobs
         WHERE id = ${jobId}
         LIMIT 1
       `;
 
       if (!jobResult.length) {
+        removeUploadedFile(uploadedFile);
+
         return res.status(404).json({
           success: false,
-          message: 'Job not found.'
+          message: 'Job not found.',
         });
       }
 
       if (!jobResult[0].is_active) {
+        removeUploadedFile(uploadedFile);
+
         return res.status(400).json({
           success: false,
-          message:
-            'This job is no longer accepting applications.'
+          message: 'This job is no longer accepting applications.',
         });
       }
 
@@ -265,25 +276,15 @@ router.post(
       if (!req.file) {
         return res.status(400).json({
           success: false,
-          message: 'Please upload your resume.'
+          message: 'Please upload your resume.',
         });
       }
 
-      // -----------------------------------------------------
-      // RESUME URL
-      // -----------------------------------------------------
-
-      const resumeUrl =
-        `/uploads/resumes/${req.file.filename}`;
-
-      // -----------------------------------------------------
-      // SKILLS
-      // -----------------------------------------------------
-
+      const resumeUrl = `/uploads/resumes/${req.file.filename}`;
       const normalizedSkills = normalizeSkills(skills);
 
       // -----------------------------------------------------
-      // INSERT APPLICATION
+      // SAVE APPLICATION
       // -----------------------------------------------------
 
       let application = null;
@@ -292,8 +293,7 @@ router.post(
       while (!application && attempts < 10) {
         attempts++;
 
-        const applicationNumber =
-          generateApplicationNumber();
+        const applicationNumber = generateApplicationNumber();
 
         try {
           const result = await sql`
@@ -327,10 +327,10 @@ router.post(
             VALUES (
               ${applicationNumber},
               ${jobId},
-              ${first_name.trim()},
-              ${last_name.trim()},
+              ${cleanFirstName},
+              ${cleanLastName},
               ${cleanEmail},
-              ${phone.trim()},
+              ${cleanPhone},
               ${date_of_birth || null},
               ${gender || null},
               ${current_location || null},
@@ -362,13 +362,9 @@ router.post(
           `;
 
           application = result[0];
-
         } catch (error) {
-          // Retry if the generated application number collides.
-          if (
-            error.code === '23505' &&
-            attempts < 10
-          ) {
+          // Retry only for a unique application-number collision.
+          if (error.code === '23505' && attempts < 10) {
             continue;
           }
 
@@ -377,90 +373,73 @@ router.post(
       }
 
       if (!application) {
-        throw new Error(
-          'Unable to generate application number.'
-        );
+        throw new Error('Unable to generate application number.');
       }
 
+      applicationSaved = true;
+
       // -----------------------------------------------------
-      // SEND CONFIRMATION EMAIL
+      // RESPOND IMMEDIATELY
       // -----------------------------------------------------
       // The database insert has succeeded.
-      // Email failure must not make the saved application
-      // appear unsuccessful to the applicant.
+      // Do not wait for the email provider.
 
-      try {
-        await sendSubmissionConfirmation({
-          to: application.email,
-          name:
-            `${application.first_name} ${application.last_name}`,
-          kind: 'application',
-          reference: application.application_number,
-          position: jobResult[0].position_name
-        });
+      res.status(201).json({
+        success: true,
+        message: 'Application submitted successfully.',
+        applicationNumber: application.application_number,
+        application,
+      });
 
-      } catch (emailError) {
+      // -----------------------------------------------------
+      // SEND CONFIRMATION EMAIL IN THE BACKGROUND
+      // -----------------------------------------------------
+      // Email failure must not change the successful response.
+
+      void sendSubmissionConfirmation({
+        to: application.email,
+        name: `${application.first_name} ${application.last_name}`,
+        kind: 'application',
+        reference: application.application_number,
+        position: jobResult[0].position_name,
+      }).catch((emailError) => {
         console.error(
           'Job application confirmation email failed:',
           emailError
         );
-      }
-
-      // -----------------------------------------------------
-      // SUCCESS RESPONSE
-      // -----------------------------------------------------
-
-      return res.status(201).json({
-        success: true,
-        message: 'Application submitted successfully.',
-        applicationNumber: application.application_number,
-        application
       });
-
     } catch (error) {
-      console.error(
-        'Application submission error:',
-        error
-      );
+      console.error('Application submission error:', error);
 
-      // -----------------------------------------------------
-      // CLEAN UP FILE
-      // -----------------------------------------------------
-      // Only remove the uploaded resume when submission failed.
-      // Email errors are handled separately above.
-
-      if (
-        uploadedFile &&
-        fs.existsSync(uploadedFile)
-      ) {
-        try {
-          fs.unlinkSync(uploadedFile);
-        } catch (removeError) {
-          console.error(
-            'Resume cleanup error:',
-            removeError
-          );
-        }
+      // Remove the uploaded resume only if the application
+      // was not saved successfully.
+      if (!applicationSaved) {
+        removeUploadedFile(uploadedFile);
       }
 
-      // -----------------------------------------------------
-      // MULTER ERRORS
-      // -----------------------------------------------------
+      if (res.headersSent) {
+        return;
+      }
 
       if (error instanceof multer.MulterError) {
         if (error.code === 'LIMIT_FILE_SIZE') {
           return res.status(400).json({
             success: false,
-            message: 'Resume must be smaller than 5 MB.'
+            message: 'Resume must be smaller than 5 MB.',
           });
         }
       }
 
+      if (error.status === 400) {
+        return res.status(400).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
       return res.status(500).json({
         success: false,
-        message:
-          error.message ||
-          'Unable to submit application.'
+        message: 'Unable to submit application.',
       });
     }
   }
@@ -476,11 +455,7 @@ router.get(
   authenticateAdmin,
   async (req, res) => {
     try {
-      const {
-        status,
-        search,
-        job_id
-      } = req.query;
+      const { status, search, job_id } = req.query;
 
       const applications = await sql`
         SELECT
@@ -516,20 +491,17 @@ router.get(
           j.location,
           j.employment_type
         FROM job_applications a
-        INNER JOIN jobs j
-          ON j.id = a.job_id
+        INNER JOIN jobs j ON j.id = a.job_id
         WHERE
           (
             ${!status || status === 'all'}
             OR a.status = ${status}
           )
-          AND
-          (
+          AND (
             ${!job_id}
             OR a.job_id = ${job_id}
           )
-          AND
-          (
+          AND (
             ${!search}
             OR a.first_name ILIKE ${`%${search || ''}%`}
             OR a.last_name ILIKE ${`%${search || ''}%`}
@@ -543,18 +515,14 @@ router.get(
 
       return res.status(200).json({
         success: true,
-        applications
+        applications,
       });
-
     } catch (error) {
-      console.error(
-        'Admin applications error:',
-        error
-      );
+      console.error('Admin applications error:', error);
 
       return res.status(500).json({
         success: false,
-        message: 'Unable to load applications.'
+        message: 'Unable to load applications.',
       });
     }
   }
@@ -578,8 +546,7 @@ router.get(
           j.employment_type,
           j.short_description
         FROM job_applications a
-        INNER JOIN jobs j
-          ON j.id = a.job_id
+        INNER JOIN jobs j ON j.id = a.job_id
         WHERE a.id = ${req.params.id}
         LIMIT 1
       `;
@@ -587,24 +554,20 @@ router.get(
       if (!result.length) {
         return res.status(404).json({
           success: false,
-          message: 'Application not found.'
+          message: 'Application not found.',
         });
       }
 
       return res.status(200).json({
         success: true,
-        application: result[0]
+        application: result[0],
       });
-
     } catch (error) {
-      console.error(
-        'Application details error:',
-        error
-      );
+      console.error('Application details error:', error);
 
       return res.status(500).json({
         success: false,
-        message: 'Unable to load application.'
+        message: 'Unable to load application.',
       });
     }
   }
@@ -630,13 +593,13 @@ router.patch(
         'interview',
         'selected',
         'rejected',
-        'withdrawn'
+        'withdrawn',
       ];
 
       if (!allowedStatuses.includes(status)) {
         return res.status(400).json({
           success: false,
-          message: 'Invalid application status.'
+          message: 'Invalid application status.',
         });
       }
 
@@ -652,11 +615,10 @@ router.patch(
       if (!result.length) {
         return res.status(404).json({
           success: false,
-          message: 'Application not found.'
+          message: 'Application not found.',
         });
       }
 
-      // Fetch the position details after updating the status.
       const complete = await sql`
         SELECT
           a.*,
@@ -664,8 +626,7 @@ router.patch(
           j.location,
           j.employment_type
         FROM job_applications a
-        INNER JOIN jobs j
-          ON j.id = a.job_id
+        INNER JOIN jobs j ON j.id = a.job_id
         WHERE a.id = ${req.params.id}
         LIMIT 1
       `;
@@ -673,18 +634,14 @@ router.patch(
       return res.status(200).json({
         success: true,
         message: 'Application status updated successfully.',
-        application: complete[0]
+        application: complete[0],
       });
-
     } catch (error) {
-      console.error(
-        'Application status error:',
-        error
-      );
+      console.error('Application status error:', error);
 
       return res.status(500).json({
         success: false,
-        message: 'Unable to update application status.'
+        message: 'Unable to update application status.',
       });
     }
   }
@@ -704,55 +661,41 @@ router.delete(
       const result = await sql`
         DELETE FROM job_applications
         WHERE id = ${req.params.id}
-        RETURNING
-          id,
-          resume_url
+        RETURNING id, resume_url
       `;
 
       if (!result.length) {
         return res.status(404).json({
           success: false,
-          message: 'Application not found.'
+          message: 'Application not found.',
         });
       }
 
-      // Delete the resume file associated with the application.
       const resumeUrl = result[0].resume_url;
 
       if (resumeUrl) {
         const filename = path.basename(resumeUrl);
-
-        const filePath = path.join(
-          resumeDirectory,
-          filename
-        );
+        const filePath = path.join(resumeDirectory, filename);
 
         if (fs.existsSync(filePath)) {
           try {
             fs.unlinkSync(filePath);
           } catch (fileError) {
-            console.error(
-              'Resume delete error:',
-              fileError
-            );
+            console.error('Resume delete error:', fileError);
           }
         }
       }
 
       return res.status(200).json({
         success: true,
-        message: 'Application deleted successfully.'
+        message: 'Application deleted successfully.',
       });
-
     } catch (error) {
-      console.error(
-        'Delete application error:',
-        error
-      );
+      console.error('Delete application error:', error);
 
       return res.status(500).json({
         success: false,
-        message: 'Unable to delete application.'
+        message: 'Unable to delete application.',
       });
     }
   }
