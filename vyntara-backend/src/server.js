@@ -26,14 +26,12 @@ import adminPopupRouter from './routes/adminPopup.js';
 // =========================================================
 
 const app = express();
-
 const PORT = Number(process.env.PORT) || 5000;
 
 // =========================================================
 // CORS CONFIGURATION
 // =========================================================
 
-// Production frontend domains and local development.
 const allowedOrigins = [
   'https://vyntaralabs.tech',
   'https://www.vyntaralabs.tech',
@@ -49,8 +47,7 @@ const uniqueAllowedOrigins = [...new Set(allowedOrigins)];
 
 const corsOptions = {
   origin(origin, callback) {
-    // Allow requests without an Origin header, such as server-to-server
-    // requests and certain health checks.
+    // Allow requests without an Origin header.
     if (!origin) {
       return callback(null, true);
     }
@@ -71,35 +68,20 @@ const corsOptions = {
 
   credentials: true,
 
-  methods: [
-    'GET',
-    'POST',
-    'PUT',
-    'PATCH',
-    'DELETE',
-    'OPTIONS',
-  ],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 
-  allowedHeaders: [
-    'Content-Type',
-    'Authorization',
-  ],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 
   optionsSuccessStatus: 204,
 };
 
-// CORS must run before routes and error handlers.
 app.use(cors(corsOptions));
 
 // =========================================================
 // BODY PARSERS
 // =========================================================
 
-app.use(
-  express.json({
-    limit: '2mb',
-  })
-);
+app.use(express.json({ limit: '2mb' }));
 
 app.use(
   express.urlencoded({
@@ -160,64 +142,54 @@ app.get('/', (req, res) => {
 
 // =========================================================
 // ADMIN AUTH / DASHBOARD
-// /api/admin
 // =========================================================
 
 app.use('/api/admin', adminRouter);
 
 // =========================================================
 // PROJECT ENQUIRIES
-// /api/projects
 // =========================================================
 
 app.use('/api/projects', projectsRouter);
 
 // =========================================================
 // PUBLIC JOBS
-// /api/jobs
 // =========================================================
 
 app.use('/api/jobs', publicJobsRouter);
 
 // =========================================================
 // ADMIN JOBS
-// /api/admin/jobs
 // =========================================================
 
 app.use('/api/admin/jobs', adminJobsRouter);
 
 // =========================================================
 // JOB APPLICATIONS
-// /api/jobs/:id/applications
-// /api/admin/applications
 // =========================================================
 
 app.use('/api', applicationsRouter);
 
 // =========================================================
 // PUBLIC TESTIMONIALS
-// /api/testimonials
 // =========================================================
 
 app.use('/api/testimonials', publicTestimonialsRouter);
 
 // =========================================================
 // ADMIN TESTIMONIALS
-// /api/admin/testimonials
 // =========================================================
 
 app.use('/api/admin/testimonials', testimonialsRouter);
 
 // =========================================================
 // PUBLIC WEBSITE POPUP
-// /api/popup
 // =========================================================
 
 app.use('/api/popup', publicPopupRouter);
 
 // =========================================================
 // ADMIN WEBSITE POPUP
-// /api/admin/popup
 // =========================================================
 
 app.use('/api/admin/popup', adminPopupRouter);
@@ -291,8 +263,4 @@ app.listen(PORT, () => {
   uniqueAllowedOrigins.forEach((origin) => {
     console.log(` - ${origin}`);
   });
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> 3417806 (Add email confirmations for enquiries and job applications)
