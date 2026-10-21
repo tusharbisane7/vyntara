@@ -1,5 +1,8 @@
+// routes/projects.js
+
 import express from 'express';
 import sql from '../config/db.js';
+import { sendSubmissionConfirmation } from '../utils/sendEmail.js';
 
 const router = express.Router();
 
@@ -7,18 +10,7 @@ const router = express.Router();
 |--------------------------------------------------------------------------
 | SUBMIT PROJECT REQUEST
 |--------------------------------------------------------------------------
-|
-| Frontend ProjectForm sends:
-|
-| name
-| email
-| phone
-| company
-| projectType
-| budget
-| timeline
-| message
-|
+| POST /api/projects
 |--------------------------------------------------------------------------
 */
 
@@ -35,50 +27,36 @@ router.post('/', async (req, res) => {
       message
     } = req.body;
 
-    /*
-    |--------------------------------------------------------------------------
-    | NORMALIZE INPUT
-    |--------------------------------------------------------------------------
-    */
+    // Normalize input
+    const fullName =
+      typeof name === 'string' ? name.trim() : '';
 
-    const fullName = typeof name === 'string'
-      ? name.trim()
-      : '';
+    const cleanEmail =
+      typeof email === 'string'
+        ? email.trim().toLowerCase()
+        : '';
 
-    const cleanEmail = typeof email === 'string'
-      ? email.trim().toLowerCase()
-      : '';
+    const cleanPhone =
+      typeof phone === 'string' ? phone.trim() : null;
 
-    const cleanPhone = typeof phone === 'string'
-      ? phone.trim()
-      : null;
+    const cleanCompany =
+      typeof company === 'string' ? company.trim() : null;
 
-    const cleanCompany = typeof company === 'string'
-      ? company.trim()
-      : null;
+    const cleanProjectType =
+      typeof projectType === 'string'
+        ? projectType.trim()
+        : '';
 
-    const cleanProjectType = typeof projectType === 'string'
-      ? projectType.trim()
-      : '';
+    const cleanBudget =
+      typeof budget === 'string' ? budget.trim() : null;
 
-    const cleanBudget = typeof budget === 'string'
-      ? budget.trim()
-      : null;
+    const cleanTimeline =
+      typeof timeline === 'string' ? timeline.trim() : null;
 
-    const cleanTimeline = typeof timeline === 'string'
-      ? timeline.trim()
-      : null;
+    const projectDescription =
+      typeof message === 'string' ? message.trim() : '';
 
-    const projectDescription = typeof message === 'string'
-      ? message.trim()
-      : '';
-
-    /*
-    |--------------------------------------------------------------------------
-    | REQUIRED FIELD VALIDATION
-    |--------------------------------------------------------------------------
-    */
-
+    // Required field validation
     if (
       !fullName ||
       !cleanEmail ||
@@ -91,14 +69,8 @@ router.post('/', async (req, res) => {
       });
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | EMAIL VALIDATION
-    |--------------------------------------------------------------------------
-    */
-
-    const emailRegex =
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(cleanEmail)) {
       return res.status(400).json({
@@ -107,12 +79,7 @@ router.post('/', async (req, res) => {
       });
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | BASIC LENGTH VALIDATION
-    |--------------------------------------------------------------------------
-    */
-
+    // Length validation
     if (fullName.length > 150) {
       return res.status(400).json({
         success: false,
@@ -134,12 +101,7 @@ router.post('/', async (req, res) => {
       });
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | INSERT INTO NEON POSTGRESQL
-    |--------------------------------------------------------------------------
-    */
-
+    // Save enquiry in Neon PostgreSQL
     const result = await sql`
       INSERT INTO project_requests (
         full_name,
@@ -177,23 +139,31 @@ router.post('/', async (req, res) => {
         created_at
     `;
 
-    /*
-    |--------------------------------------------------------------------------
-    | SUCCESS RESPONSE
-    |--------------------------------------------------------------------------
-    */
+    const project = result[0];
+
+    // Send confirmation after successful database insertion.
+    // Do not fail the enquiry if the email service is unavailable.
+    try {
+      await sendSubmissionConfirmation({
+        to: cleanEmail,
+        name: fullName,
+        kind: 'enquiry'
+      });
+    } catch (emailError) {
+      console.error(
+        'Project enquiry confirmation email failed:',
+        emailError
+      );
+    }
 
     return res.status(201).json({
       success: true,
       message: 'Project request submitted successfully.',
-      project: result[0]
+      project
     });
 
   } catch (error) {
-    console.error(
-      'Project submission error:',
-      error
-    );
+    console.error('Project submission error:', error);
 
     return res.status(500).json({
       success: false,

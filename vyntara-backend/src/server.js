@@ -291,4 +291,8 @@ app.listen(PORT, () => {
   uniqueAllowedOrigins.forEach((origin) => {
     console.log(` - ${origin}`);
   });
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> 3417806 (Add email confirmations for enquiries and job applications)
